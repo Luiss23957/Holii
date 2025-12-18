@@ -1,778 +1,827 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Para Mily 💖</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    background: #0a0a0a;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow: hidden;
-    position: relative;
-}
-
-/* Fondo animado de estrellas */
-.stars {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle 3s infinite;
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
-
-/* Rosas flotantes */
-.rose {
-    position: absolute;
-    font-size: 30px;
-    opacity: 0;
-    animation: floatRose 8s ease-in-out infinite;
-    pointer-events: none;
-    filter: drop-shadow(0 0 10px rgba(255, 182, 193, 0.5));
-}
-
-@keyframes floatRose {
-    0% {
-        transform: translateY(100vh) rotate(0deg) translateX(0);
-        opacity: 0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flores Amarillas</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
     }
-    10% {
-        opacity: 0.8;
+
+    :root {
+        --green: #82cd21;
     }
-    50% {
-        transform: translateY(50vh) rotate(180deg) translateX(30px);
-        opacity: 1;
+
+    body {
+        overflow: hidden;
+        width: 100%;
+        height: 100vh;
+        background: #151626;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    90% {
-        opacity: 0.8;
+
+    .hojas-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        animation: scale-down 2s ease-out;
     }
-    100% {
-        transform: translateY(-10vh) rotate(360deg) translateX(-30px);
-        opacity: 0;
+
+    #canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -5;
     }
-}
 
-.card {
-    background: linear-gradient(135deg, rgba(255, 182, 193, 0.15), rgba(255, 105, 180, 0.15));
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 182, 193, 0.3);
-    width: 100%;
-    max-width: 500px;
-    border-radius: 40px;
-    padding: 50px 40px;
-    text-align: center;
-    box-shadow: 
-        0 8px 32px rgba(255, 105, 180, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    animation: cardAppear 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    position: relative;
-    z-index: 10;
-}
-
-@keyframes cardAppear {
-    0% {
-        opacity: 0;
-        transform: scale(0.8) translateY(50px);
+    .main {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
+
+    .reproductor {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+        width: 23%;
+        min-width: 450px;
+        padding: 50px;
+        background: #22233fb6;
+        box-sizing: border-box;
+        border-radius: 15px;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+        text-align: center;
     }
-}
 
-.card::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #ff69b4, #ff1493, #ff69b4, #ffc0cb);
-    border-radius: 40px;
-    z-index: -1;
-    opacity: 0.5;
-    filter: blur(10px);
-    animation: glow 3s ease-in-out infinite;
-}
-
-@keyframes glow {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.8; }
-}
-
-h1 {
-    color: #fff;
-    font-size: 2.8em;
-    margin-bottom: 25px;
-    text-shadow: 
-        0 0 10px rgba(255, 182, 193, 0.8),
-        0 0 20px rgba(255, 105, 180, 0.6);
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-
-p {
-    color: #ffc0cb;
-    line-height: 2;
-    font-size: 1.15em;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.highlight {
-    color: #fff;
-    font-weight: 600;
-    font-size: 1.3em;
-    text-shadow: 
-        0 0 10px rgba(255, 182, 193, 1),
-        0 0 20px rgba(255, 105, 180, 0.8);
-}
-
-button {
-    width: 100%;
-    padding: 18px;
-    border-radius: 50px;
-    border: 2px solid rgba(255, 182, 193, 0.5);
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.3), rgba(255, 20, 147, 0.3));
-    backdrop-filter: blur(10px);
-    color: #fff;
-    font-size: 1.15em;
-    font-weight: 600;
-    margin-top: 15px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: 1px;
-}
-
-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.5), rgba(255, 20, 147, 0.5));
-    border-color: rgba(255, 182, 193, 0.8);
-}
-
-button:active {
-    transform: translateY(-1px);
-}
-
-.secondary {
-    background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(255, 192, 203, 0.3));
-    border-color: rgba(255, 182, 193, 0.6);
-}
-
-.secondary:hover {
-    background: linear-gradient(135deg, rgba(255, 182, 193, 0.5), rgba(255, 192, 203, 0.5));
-}
-
-.section {
-    display: none;
-    animation: sectionFade 0.8s ease;
-}
-
-.section.active {
-    display: block;
-}
-
-@keyframes sectionFade {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
+    .reproductor h1 {
+        color: white;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 300;
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+
+    .reproductor p{
+        color: white;
+        font-size: 1.5em;
+        font-weight: 300;
     }
-}
 
-/* JUEGO 1 - ATRAPA CORAZONES */
-.game-container {
-    position: relative;
-    height: 350px;
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(255, 105, 180, 0.1));
-    border: 2px solid rgba(255, 182, 193, 0.3);
-    border-radius: 30px;
-    margin: 25px 0;
-    overflow: hidden;
-    box-shadow: 
-        inset 0 2px 20px rgba(255, 105, 180, 0.2),
-        0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.game-heart {
-    position: absolute;
-    font-size: 45px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.8));
-    user-select: none;
-    animation: heartFloat 2s ease-in-out infinite;
-}
-
-@keyframes heartFloat {
-    0%, 100% {
-        transform: translateY(0) scale(1);
+    .reproductor p:first-child {
+        margin-bottom: 30px;
     }
-    50% {
-        transform: translateY(-15px) scale(1.1);
+
+    .spotify-container {
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 12px;
+        overflow: hidden;
     }
-}
 
-.game-heart:hover {
-    transform: scale(1.4) rotate(15deg);
-    filter: drop-shadow(0 0 15px rgba(255, 105, 180, 1));
-}
-
-.game-heart.caught {
-    animation: heartExplode 0.8s ease;
-    pointer-events: none;
-}
-
-@keyframes heartExplode {
-    0% {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
+    .hoja {
+        width: 30px;
+        height: 200px;
+        border-radius: 100% 0 0 0;
+        border-left: 6px solid var(--green);
+        position: relative;
+        transform-origin: left bottom;
     }
-    50% {
-        transform: scale(2.5) rotate(180deg);
-        opacity: 0.8;
+
+    .hojita {
+        width: 70px;
+        height: 20px;
+        border-radius: 50%;
+        border-top: 6px solid var(--green);
+        position: absolute;
     }
-    100% {
-        transform: scale(0) rotate(360deg);
-        opacity: 0;
+
+    .hojita-1 {
+        top: -25px;
+        left: -20px;
+        transform: rotate(98deg);
     }
-}
 
-/* JUEGO 2 - MENSAJE SECRETO */
-.letter-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 30px 0;
-    min-height: 80px;
-}
-
-.letter-box {
-    width: 50px;
-    height: 60px;
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 20, 147, 0.2));
-    border: 2px solid rgba(255, 182, 193, 0.4);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.letter-box::before {
-    content: '?';
-    position: absolute;
-    font-size: 32px;
-    color: #ffc0cb;
-    text-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
-}
-
-.letter-box.revealed::before {
-    content: '';
-}
-
-.letter-box.revealed {
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.4), rgba(255, 20, 147, 0.4));
-    border-color: rgba(255, 182, 193, 0.8);
-    animation: revealLetter 0.5s ease;
-}
-
-@keyframes revealLetter {
-    0% {
-        transform: rotateY(0deg);
+    .hojita-2 {
+        top: -20px;
+        left: -35px;
+        border-top-width: 8px;
+        transform: rotate(75deg);
     }
-    50% {
-        transform: rotateY(90deg);
+
+    .hojita-3 {
+        left: -45px;
+        border-top-width: 10px;
+        transform: rotate(60deg);
     }
-    100% {
-        transform: rotateY(0deg);
+
+    .hojita-4 {
+        width: 70px;
+        top: 20px;
+        left: -55px;
+        border-top-width: 10px;
+        transform: rotate(45deg);
     }
-}
 
-.letter-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(255, 105, 180, 0.5);
-}
-
-#score {
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.5em;
-    margin-top: 20px;
-    text-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
-    letter-spacing: 2px;
-}
-
-.timer {
-    color: #ffc0cb;
-    font-size: 1.2em;
-    margin-top: 12px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* NOMBRE MILY */
-.name-hearts {
-    position: absolute;
-    top: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: grid;
-    grid-template-columns: repeat(16, 18px);
-    gap: 6px;
-    z-index: 15;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-    filter: drop-shadow(0 0 20px rgba(255, 105, 180, 1));
-}
-
-.name-hearts.show {
-    opacity: 1;
-    animation: nameGlow 2s ease-in-out infinite;
-}
-
-@keyframes nameGlow {
-    0%, 100% {
-        filter: drop-shadow(0 0 20px rgba(255, 105, 180, 1));
+    .hojita-5 {
+        top: 40px;
+        left: -60px;
+        border-top-width: 10px;
+        transform: rotate(30deg);
     }
-    50% {
-        filter: drop-shadow(0 0 40px rgba(255, 20, 147, 1));
+
+    .hojita-6 {
+        width: 80px;
+        top: 60px;
+        left: -75px;
+        border-top-width: 10px;
+        transform: rotate(20deg);
     }
-}
 
-.name-hearts span {
-    font-size: 18px;
-    animation: heartPulse 1.5s infinite;
-}
-
-@keyframes heartPulse {
-    0%, 100% {
-        transform: scale(1);
+    .hojita-7 {
+        width: 80px;
+        top: 80px;
+        left: -80px;
+        border-top-width: 8px;
+        transform: rotate(15deg);
     }
-    50% {
-        transform: scale(1.4);
+
+    .hojita-8 {
+        width:100px;
+        top: 100px;
+        left: -100px;
+        border-radius: 100%;
+        border-top-width: 8px;
+        transform: rotate(13deg);
     }
-}
 
-#finalMsg {
-    margin-top: 30px;
-    color: #fff;
-    font-weight: 600;
-    font-size: 1.2em;
-    line-height: 2;
-    text-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
-}
+    .hojita-9 {
+        width: 90px;
+        top: 122px;
+        left: -90px;
+        border-top-width: 5px;
+        transform: rotate(18deg);
+    }
 
-.sparkle {
-    font-size: 2.5em;
-    margin: 20px 0;
-    animation: sparkleRotate 3s linear infinite;
-}
+    .hojita-10 {
+        width: 80px;
+        top: 140px;
+        left: -80px;
+        border-top-width: 6px;
+        transform: rotate(20deg);
+    }
 
-@keyframes sparkleRotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+    .hojita-11 {
+        width: 80px;
+        top: 160px;
+        left: -80px;
+        border-top-width: 8px;
+        transform: rotate(22deg);
+    }
 
-.love-message {
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(255, 105, 180, 0.2));
-    padding: 25px;
-    border-radius: 20px;
-    margin: 25px 0;
-    border: 2px solid rgba(255, 182, 193, 0.4);
-    box-shadow: 
-        inset 0 2px 10px rgba(255, 105, 180, 0.2),
-        0 4px 15px rgba(255, 105, 180, 0.3);
-}
-</style>
+    .hojita-12 {
+        top: 0px;
+        left: 5px;
+        transform: rotate(-30deg);
+    }
+
+    .hojita-13 {
+        top: 20px;
+        left: 5px;
+        border-top-width: 5px;
+        transform: rotate(-20deg);
+    }
+
+    .hojita-14 {
+        top: 40px;
+        left: 5px;
+        border-top-width: 7px;
+        transform: rotate(-15deg);
+    }
+
+    .hojita-15 {
+        width: 80px;
+        top: 60px;
+        left: 3px;
+        border-top-width: 10px;
+        transform: rotate(-15deg);
+    }
+
+    .hojita-16 {
+        width: 90px;
+        top: 83px;
+        left: 2px;
+        border-top-width: 10px;
+        transform: rotate(-13deg);
+    }
+
+    .hojita-17 {
+        width: 100px;
+        top: 105px;
+        left: 0px;
+        border-top-width: 10px;
+        transform: rotate(-12deg);
+    }
+
+    .hojita-18 {
+        width: 90px;
+        top: 130px;
+        left: 0px;
+        border-top-width: 8px;
+        transform: rotate(-5deg);
+    }
+
+    .hojita-19 {
+        width: 70px;
+        top: 150px;
+        left: 0px;
+        border-top-width: 6px;
+        transform: rotate(-5deg);
+    }
+
+    .hojita-20 {
+        width: 60px;
+        top: 170px;
+        left: 0px;
+        border-top-width: 5px;
+        transform: rotate(-5deg);
+    }
+
+    /* arriba a la izq */
+    .hoja-1 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        left: -23px;
+        transform: rotate(150deg);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+    .hoja-2 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        left: 30px;
+        transform: rotate(130deg);
+        z-index: 10
+    }
+
+    .hoja-3 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        left: 50px;
+        transform: rotate(90deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    /* arriba a la der */
+    .hoja-4 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        right: -10px;
+        transform: rotate(230deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    .hoja-5 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -205px;
+        right: 70px;
+        transform: rotate(200deg);
+        z-index: 10;
+    }
+
+    .hoja-6 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -200px;
+        right: 90px;
+        transform: rotate(250deg) scaleX(-1);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+    /* abajo a la izq */
+    .hoja-7 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        left: 0px;
+        transform: rotate(30deg);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+    .hoja-8 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        left: 30px;
+        transform: rotate(50deg);
+        z-index: 10;
+    }
+
+    .hoja-9 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        left: 50px;
+        transform: rotate(80deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    /* abajo a la der */
+    .hoja-10 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        right: 0px;
+        transform: rotate(-20deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    .hoja-11 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        right: 30px;
+        transform: rotate(-40deg) scaleX(-1);
+        z-index: 10;
+    }
+
+    .hoja-12 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        right: 50px;
+        transform: rotate(-80deg) scaleX(-1);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+    @keyframes scale-down {
+        0% {
+            transform: scale(3);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+  </style>
 </head>
-
 <body>
-
-<!-- Estrellas -->
-<div class="stars" id="stars"></div>
-
-<div class="card">
-
-    <!-- 1 -->
-    <div class="section active" id="s1">
-        <h1>Mily 🌹</h1>
-        <p>
-            Hay palabras que he guardado<br>
-            en mi corazón por tanto tiempo…
-        </p>
-        <p>
-            Palabras que solo cobran sentido<br>
-            cuando pienso en ti.
-        </p>
-        <button onclick="next(2)">Quiero compartirlas contigo 💫</button>
-    </div>
-
-    <!-- 2 -->
-    <div class="section" id="s2">
-        <p>
-            Desde que te conocí,<br>
-            algo en mí cambió…
-        </p>
-        <p>
-            Tu sonrisa se convirtió en mi debilidad,<br>
-            tu voz en mi melodía favorita.
-        </p>
-        <p>
-            Cada mensaje que me mandas<br>
-            se siente como un regalo del destino.
-        </p>
-        <button onclick="next(3)">Quiero mostrarte algo 💖</button>
-    </div>
-
-    <!-- 3 JUEGO 1 -->
-    <div class="section" id="s3">
-        <p style="font-size: 1.1em;"><strong>💫 Atrapa mi corazón 💫</strong></p>
-        <p style="font-size: 0.95em;">Cada corazón representa un latido por ti</p>
-
-        <div class="game-container" id="gameArea"></div>
-
-        <div id="score">0 / 10</div>
-        <div class="timer" id="timer">⏱️ 25s</div>
-    </div>
-
-    <!-- 4 -->
-    <div class="section" id="s4">
-        <p>
-            Cada uno de esos corazones<br>
-            late solo por ti…
-        </p>
-        <p>
-            Porque eres la razón por la que<br>
-            mis días tienen color,<br>
-            por la que las noches parecen más estrelladas.
-        </p>
-        <button onclick="next(5)">Hay más que quiero decirte ✨</button>
-    </div>
-
-    <!-- 5 -->
-    <div class="section" id="s5">
-        <p>
-            Tu presencia ilumina mi mundo<br>
-            de formas que ni siquiera sabía<br>
-            que eran posibles…
-        </p>
-        <p>
-            Contigo, los segundos se convierten en eternidad,<br>
-            y la eternidad se siente demasiado corta.
-        </p>
-        <button onclick="next(6)">Descubre lo que siento 💕</button>
-    </div>
-
-    <!-- 6 JUEGO 2 -->
-    <div class="section" id="s6">
-        <p style="font-size: 1.1em;"><strong>💫 Descubre el mensaje secreto 💫</strong></p>
-        <p style="font-size: 0.95em;">Toca cada letra para revelar mis sentimientos</p>
-
-        <div class="letter-container" id="letterContainer"></div>
-
-        <p style="font-size: 0.9em; color: #ffc0cb; margin-top: 20px;">
-            Toca todas las letras en orden 💖
-        </p>
-    </div>
-
-    <!-- 7 -->
-    <div class="section" id="s7">
-        <p>
-            Sí, Mily…<br><br>
-            Me gustas de una forma<br>
-            que no puedo explicar con palabras.
-        </p>
-        <p>
-            Me gusta todo de ti:<br>
-            tu esencia, tu alma, tu forma de ser.
-        </p>
-        <button onclick="next(8)">Hay algo más en mi corazón 🌹</button>
-    </div>
-
-    <!-- 8 FINAL -->
-    <div class="section" id="s8">
-        <div class="sparkle">✨</div>
-        
-        <div class="love-message">
-            <p class="highlight" style="margin-bottom: 25px;">
-                Me gustas, Mily 💕
-            </p>
+    <div class="main">
+        <div class="reproductor">
+            <p>Playing now</p>
+            <h1>Flores</h1>
+            <p>Latin Mafia</p>
             
-            <p>
-                Me gustas cuando sonríes,<br>
-                cuando hablas, cuando callas…
-            </p>
-            
-            <p>
-                Me gustas en tus mejores momentos<br>
-                y también en los difíciles.
-            </p>
+            <div class="spotify-container">
+                <iframe 
+                    data-testid="embed-iframe" 
+                    style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/track/1dyA1Re4QEQQWGDDT7h9TK?utm_source=generator" 
+                    width="100%" 
+                    height="352" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
 
-            <p style="margin-top: 25px;">
-                Porque eres real, auténtica,<br>
-                y eso te hace perfecta para mí.
-            </p>
+    <canvas id="canvas"></canvas>
+    
+    <div class="hojas-container"> 
+        <div class="hoja-1">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
         </div>
 
-        <p style="color:#fff; font-size: 1.15em; margin-top: 30px;">
-            Eres la persona más especial<br>
-            que he conocido 🌹✨
-        </p>
+        <div class="hoja-2">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
 
-        <button onclick="respuestaSi()">Esto me llega al corazón 💕</button>
-        <button class="secondary" onclick="respuestaEncantaria()">Eres muy especial para mí 😊</button>
+        <div class="hoja-3">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
 
-        <p id="finalMsg"></p>
+        <div class="hoja-4">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-5">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-6">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-7">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-8">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-9">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-10">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-11">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
+
+        <div class="hoja-12">
+            <div class="hoja">
+                <div class="hojita hojita-1"></div>
+                <div class="hojita hojita-2"></div>
+                <div class="hojita hojita-3"></div>
+                <div class="hojita hojita-4"></div>
+                <div class="hojita hojita-5"></div>
+                <div class="hojita hojita-6"></div>
+                <div class="hojita hojita-7"></div>
+                <div class="hojita hojita-8"></div>
+                <div class="hojita hojita-9"></div>
+                <div class="hojita hojita-10"></div>
+                <div class="hojita hojita-11"></div>
+                <div class="hojita hojita-12"></div>
+                <div class="hojita hojita-13"></div>
+                <div class="hojita hojita-14"></div>
+                <div class="hojita hojita-15"></div>
+                <div class="hojita hojita-16"></div>
+                <div class="hojita hojita-17"></div>
+                <div class="hojita hojita-18"></div>
+                <div class="hojita hojita-19"></div>
+                <div class="hojita hojita-20"></div>
+            </div>
+        </div>
     </div>
 
-</div>
+    <script>
+        // Animación de hojas
+        setTimeout(() => {
+            const hojas = document.querySelectorAll('[class^="hoja-"]');
+            let angulo = 0;
+            const amplitud = 5;
+            const velocidad = 0.02;
 
-<!-- Nombre MILY -->
-<div class="name-hearts" id="mily"></div>
+            const transformacionesOriginales = Array.from(hojas).map(hoja => {
+                const estilo = window.getComputedStyle(hoja);
+                return estilo.transform !== 'none' ? estilo.transform : '';
+            });
 
-<!-- Música -->
-<audio id="music" src="https://cdn.pixabay.com/audio/2022/03/15/audio_7c9c6d7c1a.mp3"></audio>
+            function animarHojas() {
+                const oscilacion = Math.sin(angulo) * amplitud;
+                
+                hojas.forEach((hoja, index) => {
+                    const transformOriginal = transformacionesOriginales[index];
+                    
+                    if (transformOriginal) {
+                        hoja.style.transform = `${transformOriginal} rotate(${oscilacion}deg)`;
+                    } else {
+                        hoja.style.transform = `rotate(${oscilacion}deg)`;
+                    }
+                });
+                
+                angulo += velocidad;
+                requestAnimationFrame(animarHojas);
+            }
 
-<script>
-let count = 0;
-let gameActive = false;
-let timeLeft = 25;
-let timerInterval;
-let heartSpawnInterval;
+            setTimeout(animarHojas, 100);
+        }, 1000);
+    </script>
 
-function next(n) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById('s' + n).classList.add('active');
-    
-    if (n === 3) {
-        startGame();
-    } else if (n === 6) {
-        startGame2();
-    }
-}
+    <script>
+        // Partículas de fondo
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-// JUEGO 1 - ATRAPA CORAZONES
-function startGame() {
-    count = 0;
-    timeLeft = 25;
-    gameActive = true;
-    document.getElementById('score').innerText = "0 / 10";
-    document.getElementById('timer').innerText = "⏱️ 25s";
-    
-    const gameArea = document.getElementById('gameArea');
-    gameArea.innerHTML = '';
-    
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        document.getElementById('timer').innerText = `⏱️ ${timeLeft}s`;
-        
-        if (timeLeft <= 0) {
-            endGame(false);
+        class Particle {
+            constructor(x, y, minRadius, maxRadius, color, changeSpeed) {
+                this.x = x;
+                this.y = y;
+                this.radius = Math.random() * (maxRadius - minRadius) + minRadius;
+                this.color = color;
+                this.changeSpeed = changeSpeed;
+                this.maxRadius = maxRadius;
+                this.minRadius = minRadius;
+            }
+
+            update() {
+                this.draw();
+                this.radius += this.changeSpeed;
+                if (this.radius > this.maxRadius || this.radius < this.minRadius) {
+                    this.changeSpeed = -this.changeSpeed;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
         }
-    }, 1000);
-    
-    heartSpawnInterval = setInterval(() => {
-        if (gameActive) spawnHeart();
-    }, 700);
-}
 
-function spawnHeart() {
-    const gameArea = document.getElementById('gameArea');
-    const heart = document.createElement('div');
-    heart.className = 'game-heart';
-    
-    const hearts = ['💖', '💗', '💕', '💘', '💝', '❤️'];
-    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-    
-    heart.style.left = Math.random() * 80 + '%';
-    heart.style.top = Math.random() * 70 + '%';
-    heart.style.animationDelay = Math.random() * 2 + 's';
-    
-    heart.onclick = () => catchHeart(heart);
-    
-    gameArea.appendChild(heart);
-    
-    setTimeout(() => {
-        if (heart.parentNode && !heart.classList.contains('caught')) {
-            heart.remove();
+        const particles = [];
+        const colors = ['#eee776', '#d6d7df', '#eaea7d']
+
+        function init() {
+            for (let i = 0; i < 100; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const minRadius = 1;
+                const maxRadius = 3;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const changeSpeed = Math.random() * 0.5;
+                particles.push(new Particle(x, y, minRadius, maxRadius, color, changeSpeed));
+            }
         }
-    }, 3500);
-}
 
-function catchHeart(heart) {
-    if (!gameActive || heart.classList.contains('caught')) return;
-    
-    heart.classList.add('caught');
-    count++;
-    document.getElementById('score').innerText = count + " / 10";
-    
-    setTimeout(() => heart.remove(), 800);
-    
-    if (count >= 10) {
-        endGame(true);
-    }
-}
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+            });
+            requestAnimationFrame(animate);
+        }
 
-function endGame(won) {
-    gameActive = false;
-    clearInterval(timerInterval);
-    clearInterval(heartSpawnInterval);
-    
-    if (won) {
-        setTimeout(() => next(4), 1200);
-    } else {
-        document.getElementById('timer').innerText = "¡Inténtalo de nuevo! 💪";
-        setTimeout(() => startGame(), 2000);
-    }
-}
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-// JUEGO 2 - MENSAJE SECRETO
-let currentLetter = 0;
-const secretMessage = ['M', 'E', ' ', 'G', 'U', 'S', 'T', 'A', 'S'];
-
-function startGame2() {
-    currentLetter = 0;
-    const container = document.getElementById('letterContainer');
-    container.innerHTML = '';
-    
-    secretMessage.forEach((letter, index) => {
-        const box = document.createElement('div');
-        box.className = 'letter-box';
-        box.dataset.index = index;
-        box.dataset.letter = letter;
-        
-        box.onclick = () => revealLetter(box, index);
-        
-        container.appendChild(box);
-    });
-}
-
-function revealLetter(box, index) {
-    if (index !== currentLetter || box.classList.contains('revealed')) return;
-    
-    box.classList.add('revealed');
-    box.innerHTML = box.dataset.letter === ' ' ? '&nbsp;' : box.dataset.letter;
-    box.style.color = '#fff';
-    box.style.textShadow = '0 0 10px rgba(255, 182, 193, 1)';
-    box.style.fontSize = '32px';
-    box.style.fontWeight = 'bold';
-    
-    currentLetter++;
-    
-    if (currentLetter === secretMessage.length) {
-        setTimeout(() => next(7), 1500);
-    }
-}
-
-// DIBUJAR MILY
-const pattern = [
-  "1111011101111011",
-  "1001010001001010",
-  "1001011101111010",
-  "1001010001001010",
-  "1001011101001111"
-];
-
-function drawName() {
-    const container = document.getElementById("mily");
-    container.innerHTML = "";
-    pattern.forEach(row => {
-        [...row].forEach(cell => {
-            const span = document.createElement("span");
-            span.innerHTML = cell === "1" ? "💖" : "&nbsp;";
-            container.appendChild(span);
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles.length = 0;
+            init();
         });
-    });
-    container.classList.add('show');
-}
 
-// Música
-function playMusic() {
-    const music = document.getElementById("music");
-    music.volume = 0.4;
-    music.play().catch(e => console.log('Audio play failed:', e));
-}
-
-function respuestaSi() {
-    drawName();
-    playMusic();
-    document.getElementById("finalMsg").innerHTML =
-    "No sabes la felicidad que me das 💖<br><br>Eres la estrella más brillante en mi cielo,<br>la razón de mis sonrisas más sinceras 🌹✨<br><br>Gracias por existir, Mily";
-}
-
-function respuestaEncantaria() {
-    drawName();
-    playMusic();
-    document.getElementById("finalMsg").innerHTML =
-    "Eres lo más bonito que me ha pasado 😊💖<br><br>Cada día contigo es un regalo,<br>y no puedo esperar a crear más momentos juntos 🌟💕<br><br>Eres increíble, Mily";
-}
-
-// Crear estrellas
-function createStars() {
-    const container = document.getElementById('stars');
-    for (let i = 0; i < 200; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 3 + 's';
-        star.style.animationDuration = (2 + Math.random() * 2) + 's';
-        container.appendChild(star);
-    }
-}
-
-// Rosas flotantes
-setInterval(() => {
-    const rose = document.createElement("div");
-    rose.className = "rose";
-    rose.innerHTML = "🌹";
-    rose.style.left = Math.random() * 100 + "vw";
-    rose.style.animationDuration = (6 + Math.random() * 4) + "s";
-    rose.style.animationDelay = Math.random() * 2 + 's';
-    document.body.appendChild(rose);
-    setTimeout(() => rose.remove(), 10000);
-}, 1500);
-
-createStars();
-</script>
+        init();
+        animate();
+    </script>
 
 </body>
 </html>
