@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para una Grandiosa Mujer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd4e5 100%);
+            font-family: 'Brush Script MT', cursive, 'Georgia', serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .hearts-float {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 25px;
+            color: rgba(255, 105, 180, 0.4);
+            animation: floatUp 8s ease-in infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .title-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4rem;
+            background: linear-gradient(45deg, #ff1744, #ff69b4, #f50057, #ff1744);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientFlow 4s ease infinite;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 30px rgba(255, 105, 180, 0.5);
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.3));
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #d81b60;
+            margin-top: 1rem;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInSub 1.5s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInSub {
+            to { opacity: 1; }
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .bouquet-section {
+            position: relative;
+            animation: slideInLeft 1.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .bouquet-container {
+            position: relative;
+            width: 400px;
+            height: 550px;
+        }
+
+        .flower {
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+
+        .flower:hover {
+            transform: scale(1.15) rotate(5deg);
+            z-index: 100;
+        }
+
+        .gerbera {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.2));
+        }
+
+        .petals-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .petal {
+            position: absolute;
+            width: 55px;
+            height: 22px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0% 50%;
+        }
+
+        .center-circle {
+            position: absolute;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at 35% 35%, #a67c00, #4a3508);
+            box-shadow: inset 0 -3px 8px rgba(0,0,0,0.6), 0 3px 10px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .stem-single {
+            position: absolute;
+            width: 4px;
+            height: 180px;
+            background: linear-gradient(to bottom, #5a9636, #2d4a1a);
+            bottom: -180px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 25px;
+            height: 40px;
+            background: linear-gradient(135deg, #6db33f, #4a7c2c);
+            border-radius: 50% 0;
+            bottom: 80px;
+        }
+
+        .leaf-left {
+            left: -8px;
+            transform: rotate(-30deg);
+        }
+
+        .leaf-right {
+            right: -8px;
+            transform: rotate(30deg) scaleX(-1);
+        }
+
+        /* Posiciones de las flores - mejor distribuidas */
+        .flower1 { 
+            top: 50px; 
+            left: 150px; 
+            animation: bloom 1.2s ease-out 0.2s backwards, sway1 4s ease-in-out 1.2s infinite;
+        }
+        .flower1 .petal { background: radial-gradient(ellipse at center, #ff69b4, #ff1744); }
+
+        .flower2 { 
+            top: 120px; 
+            left: 250px; 
+            animation: bloom 1.2s ease-out 0.4s backwards, sway2 3.5s ease-in-out 1.4s infinite;
+        }
+        .flower2 .petal { background: radial-gradient(ellipse at center, #ff5252, #d50000); }
+
+        .flower3 { 
+            top: 100px; 
+            left: 50px; 
+            animation: bloom 1.2s ease-out 0.6s backwards, sway3 4.5s ease-in-out 1.6s infinite;
+        }
+        .flower3 .petal { background: radial-gradient(ellipse at center, #ffc107, #ff8f00); }
+
+        .flower4 { 
+            top: 220px; 
+            left: 180px; 
+            animation: bloom 1.2s ease-out 0.8s backwards, sway1 3.8s ease-in-out 1.8s infinite;
+        }
+        .flower4 .petal { background: radial-gradient(ellipse at center, #ff6ec7, #f50057); }
+
+        .flower5 { 
+            top: 190px; 
+            left: 90px; 
+            animation: bloom 1.2s ease-out 1s backwards, sway2 4.2s ease-in-out 2s infinite;
+        }
+        .flower5 .petal { background: radial-gradient(ellipse at center, #ff9800, #ff6f00); }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.15) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes sway1 {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        @keyframes sway2 {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-3deg); }
+        }
+
+        @keyframes sway3 {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+        }
+
+        .ribbon-wrap {
+            position: absolute;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 80px;
+            z-index: 5;
+        }
+
+        .ribbon-main {
+            position: relative;
+            width: 120px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff69b4, #ff1744);
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(255, 23, 68, 0.5);
+        }
+
+        .ribbon-tail {
+            position: absolute;
+            top: 50px;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff69b4, #ff1744);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+
+        .ribbon-tail-left {
+            left: 20px;
+        }
+
+        .ribbon-tail-right {
+            right: 20px;
+        }
+
+        .message-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.3);
+            max-width: 350px;
+            animation: slideInRight 1.5s ease-out;
+            border: 3px solid rgba(255, 105, 180, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .message-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message-text {
+            font-size: 1.5rem;
+            color: #c2185b;
+            line-height: 2;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-text::before,
+        .message-text::after {
+            content: '"';
+            font-size: 3rem;
+            color: #ff69b4;
+            font-family: Georgia, serif;
+        }
+
+        .signature {
+            margin-top: 2rem;
+            font-size: 1.3rem;
+            color: #d81b60;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .footer-message {
+            margin-top: 3rem;
+            font-size: 1.5rem;
+            color: #d81b60;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInMessage 1.5s ease-out 2.5s forwards;
+        }
+
+        @keyframes fadeInMessage {
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnim 2s ease-in-out infinite;
+            box-shadow: 0 0 10px white;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0) rotate(0deg);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1) rotate(180deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="hearts-float" id="heartsFloat"></div>
+    <div class="sparkles" id="sparkles"></div>
+    
+    <div class="container">
+        <div class="title-container">
+            <h1>Para una Grandiosa Mujer</h1>
+            <div class="subtitle">Que ilumina mis días ✨</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="bouquet-section">
+                <div class="bouquet-container">
+                    <div class="flower flower1">
+                        <div class="gerbera">
+                            <div class="petals-layer"></div>
+                            <div class="center-circle"></div>
+                            <div class="stem-single">
+                                <div class="leaf leaf-left"></div>
+                                <div class="leaf leaf-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flower flower2">
+                        <div class="gerbera">
+                            <div class="petals-layer"></div>
+                            <div class="center-circle"></div>
+                            <div class="stem-single">
+                                <div class="leaf leaf-left"></div>
+                                <div class="leaf leaf-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flower flower3">
+                        <div class="gerbera">
+                            <div class="petals-layer"></div>
+                            <div class="center-circle"></div>
+                            <div class="stem-single">
+                                <div class="leaf leaf-left"></div>
+                                <div class="leaf leaf-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flower flower4">
+                        <div class="gerbera">
+                            <div class="petals-layer"></div>
+                            <div class="center-circle"></div>
+                            <div class="stem-single">
+                                <div class="leaf leaf-left"></div>
+                                <div class="leaf leaf-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flower flower5">
+                        <div class="gerbera">
+                            <div class="petals-layer"></div>
+                            <div class="center-circle"></div>
+                            <div class="stem-single">
+                                <div class="leaf leaf-left"></div>
+                                <div class="leaf leaf-right"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ribbon-wrap">
+                        <div class="ribbon-main"></div>
+                        <div class="ribbon-tail ribbon-tail-left"></div>
+                        <div class="ribbon-tail ribbon-tail-right"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-card">
+                <div class="message-text">
+                    Cada flor representa<br>
+                    un momento especial<br>
+                    que quiero compartir<br>
+                    contigo
+                </div>
+                <div class="signature">Con todo mi cariño 💕</div>
+            </div>
+        </div>
+
+        <div class="footer-message">
+            ✨ Eres realmente especial ✨
+        </div>
+    </div>
+
+    <script>
+        // Crear pétalos para cada flor
+        document.querySelectorAll('.petals-layer').forEach(layer => {
+            // Capa exterior
+            for (let i = 0; i < 20; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const angle = (360 / 20) * i;
+                petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateX(28px)`;
+                layer.appendChild(petal);
+            }
+            
+            // Capa interior
+            for (let i = 0; i < 14; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.width = '42px';
+                petal.style.height = '17px';
+                petal.style.opacity = '0.9';
+                const angle = (360 / 14) * i + 9;
+                petal.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateX(18px)`;
+                layer.appendChild(petal);
+            }
+        });
+
+        // Crear estrellas
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Crear corazones flotantes
+        const heartsContainer = document.getElementById('heartsFloat');
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.innerHTML = '♥';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 8000);
+        }, 1200);
+
+        // Crear destellos
+        const sparklesContainer = document.getElementById('sparkles');
+        for (let i = 0; i < 30; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            sparklesContainer.appendChild(sparkle);
+        }
+    </script>
+</body>
+</html>
