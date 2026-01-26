@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mirel 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .hearts-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: floatHeart 6s infinite;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-in;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #d63031;
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .message {
+            font-size: 1.3em;
+            color: #2d3436;
+            line-height: 1.8;
+            margin: 30px 0;
+            opacity: 0;
+            animation: fadeInText 1s ease-in 0.5s forwards;
+        }
+
+        @keyframes fadeInText {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .interactive-section {
+            margin: 40px 0;
+        }
+
+        .question {
+            font-size: 2.2em;
+            color: #d63031;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .yes-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .yes-button:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        .no-button {
+            background: #dfe6e9;
+            color: #2d3436;
+            position: relative;
+        }
+
+        .celebration {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .celebration.active {
+            display: block;
+            animation: bounceIn 0.8s;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .celebration h2 {
+            color: #d63031;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .celebration p {
+            font-size: 1.4em;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .music-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .music-button:hover {
+            transform: scale(1.1);
+        }
+
+        .music-button.playing {
+            animation: musicPulse 1s infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        .rose {
+            font-size: 3em;
+            display: inline-block;
+            animation: rotate 3s infinite;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .rose:hover {
+            transform: scale(1.3) rotate(20deg);
+        }
+
+        @keyframes rotate {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .romantic-quotes {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #2d3436;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .letter-container {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe4e4 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px dashed #ff6b9d;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .letter-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        }
+
+        .letter-container::before {
+            content: "💌 Click para abrir mi carta 💌";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b9d;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .letter-content {
+            display: none;
+            animation: fadeIn 0.8s;
+        }
+
+        .letter-content.open {
+            display: block;
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .reason-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .reason-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .reason-card .emoji {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .poem {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            line-height: 2;
+            color: #2d3436;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .fortune-cookie {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .fortune-cookie:hover {
+            transform: scale(1.05);
+        }
+
+        .fortune-text {
+            display: none;
+            font-size: 1.2em;
+            color: #2d3436;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        .fortune-text.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .surprise-box {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .gift-box {
+            font-size: 5em;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s;
+            animation: bounce 2s infinite;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .gift-message {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.3em;
+            color: #2d3436;
+        }
+
+        .gift-message.revealed {
+            display: block;
+            animation: fadeIn 0.8s;
+        }
+
+        .compliments-wheel {
+            background: linear-gradient(135deg, #a8e6cf 0%, #ffd3a5 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .wheel-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .wheel-button:hover {
+            transform: scale(1.1);
+        }
+
+        .compliment-display {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #d63031;
+            font-weight: bold;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-background" id="heartsContainer"></div>
+    
+    <div class="container">
+        <div class="card">
+            <h1>💕 Para Mirel 💕</h1>
+            
+            <div class="rose" onclick="roseClick()">🌹</div>
+            
+            <div class="message">
+                Mirel, desde el momento en que apareciste en mi vida, todo cambió. Tu nombre es la palabra más bonita que conozco, y cada vez que lo pronuncio, mi corazón late más fuerte. Eres esa persona que ilumina incluso los días más grises con solo una sonrisa.
+            </div>
+
+            <div class="romantic-quotes">
+                "Mirel, en un universo infinito de personas, mis ojos siempre te encontrarán a ti" ✨
+            </div>
+
+            <div class="letter-container" onclick="openLetter()">
+                <div class="letter-content" id="letterContent">
+                    <h3 style="color: #d63031; margin-bottom: 20px;">Mi carta para ti, Mirel 💌</h3>
+                    <p style="text-align: left; line-height: 1.8;">
+                        Querida Mirel,<br><br>
+                        No soy poeta, pero contigo las palabras fluyen como nunca. Quiero que sepas que eres increíblemente especial. Tu risa es la melodía más hermosa que he escuchado, tu inteligencia me fascina cada día, y tu forma de ser hace que quiera ser mejor persona.<br><br>
+                        Cada conversación contigo es un regalo, cada momento compartido es un recuerdo que atesoro. Me encanta cómo ves el mundo, cómo te expresas, y cómo haces que todo parezca más bonito simplemente estando presente.<br><br>
+                        Con todo mi cariño 💕
+                    </p>
+                </div>
+            </div>
+
+            <div class="poem">
+                <strong style="font-size: 1.3em; color: #d63031;">Un pequeño poema para ti:</strong><br><br>
+                Mirel, tu nombre suena a melodía,<br>
+                A primavera, a sol, a alegría.<br>
+                Eres la estrella que ilumina mi cielo,<br>
+                El sueño más bonito, mi anhelo.<br><br>
+                Con solo mirarte el mundo es mejor,<br>
+                Eres poesía, magia y amor.<br>
+                Y hoy te pregunto con el corazón,<br>
+                ¿Quieres ser mi San Valentín, mi ilusión?
+            </div>
+
+            <div class="interactive-section">
+                <h3 style="color: #d63031; font-size: 1.8em; margin: 30px 0;">
+                    💖 Razones por las que me gustas 💖
+                </h3>
+                <div class="reasons-grid">
+                    <div class="reason-card" onclick="showMessage(this, 'Tu sonrisa ilumina mi mundo')">
+                        <span class="emoji">😊</span>
+                        <strong>Tu sonrisa</strong>
+                    </div>
+                    <div class="reason-card" onclick="showMessage(this, 'Eres increíblemente inteligente')">
+                        <span class="emoji">🧠</span>
+                        <strong>Tu inteligencia</strong>
+                    </div>
+                    <div class="reason-card" onclick="showMessage(this, 'Tu risa es contagiosa y hermosa')">
+                        <span class="emoji">😄</span>
+                        <strong>Tu risa</strong>
+                    </div>
+                    <div class="reason-card" onclick="showMessage(this, 'Tienes un corazón de oro')">
+                        <span class="emoji">💛</span>
+                        <strong>Tu bondad</strong>
+                    </div>
+                    <div class="reason-card" onclick="showMessage(this, 'Me encanta hablar contigo')">
+                        <span class="emoji">💬</span>
+                        <strong>Nuestras charlas</strong>
+                    </div>
+                    <div class="reason-card" onclick="showMessage(this, 'Eres única y especial')">
+                        <span class="emoji">⭐</span>
+                        <strong>Tu esencia</strong>
+                    </div>
+                </div>
+                <div id="reasonMessage" style="font-size: 1.3em; color: #d63031; margin: 20px 0; min-height: 30px; font-weight: bold;"></div>
+            </div>
+
+            <div class="compliments-wheel">
+                <h3 style="color: #d63031; margin-bottom: 20px; font-size: 1.5em;">🎡 Ruleta de cumplidos para Mirel 🎡</h3>
+                <p style="margin-bottom: 20px;">¡Gira la ruleta para recibir un cumplido especial! 💕</p>
+                <button class="wheel-button" onclick="spinWheel()">🎯 Girar Ruleta</button>
+                <div class="compliment-display" id="complimentDisplay"></div>
+            </div>
+
+            <div class="surprise-box">
+                <h3 style="color: #d63031; margin-bottom: 20px; font-size: 1.5em;">🎁 Un regalo especial 🎁</h3>
+                <div class="gift-box" onclick="openGift()">🎁</div>
+                <div class="gift-message" id="giftMessage">
+                    <p>💝 Mi regalo para ti, Mirel, es mi tiempo, mi cariño, mi compañía y mi promesa de hacerte sonreír cada día. Porque el mejor regalo que puedo darte es estar ahí para ti siempre. 💕</p>
+                </div>
+            </div>
+
+            <div class="fortune-cookie" onclick="openFortune()">
+                <h3 style="color: #d63031; margin-bottom: 15px; font-size: 1.5em;">🥠 Galleta de la fortuna 🥠</h3>
+                <p style="font-weight: bold;">¡Click para abrir tu galleta de la fortuna!</p>
+                <div class="fortune-text" id="fortuneText">
+                    "Tu futuro está lleno de amor, risas y momentos inolvidables junto a alguien que te adora con todo su corazón. Mirel, tu felicidad está asegurada." ✨💕
+                </div>
+            </div>
+
+            <div class="interactive-section" id="questionSection">
+                <div class="question">
+                    Mirel, ¿quieres ser mi San Valentín? 💖
+                </div>
+                
+                <div class="buttons">
+                    <button class="yes-button" onclick="sayYes()">¡Sí quiero! 💕</button>
+                    <button class="no-button" id="noButton" onclick="moveButton()">No...</button>
+                </div>
+            </div>
+
+            <div class="celebration" id="celebration">
+                <h2>¡Mirel dijo que SÍ! 🎉💕🎊</h2>
+                <div style="font-size: 5em; margin: 20px 0;">😍💖✨🌹💕🎉</div>
+                <p>
+                    ¡Has hecho de este el día más feliz de mi vida, Mirel! Prometo hacerte sonreír cada día, estar contigo en las buenas y en las malas, cuidarte, apoyarte y demostrarte lo increíblemente especial que eres para mí. Juntos escribiremos la historia más bonita. Gracias por darme esta oportunidad. 💕
+                </p>
+                <div class="romantic-quotes" style="margin-top: 30px;">
+                    "Mirel, contigo quiero vivir mil primaveras, mil atardeceres, y todos los momentos que la vida nos regale" 🌸
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="music-control">
+        <button class="music-button" id="musicBtn" onclick="toggleMusic()" title="Música romántica">🎵</button>
+    </div>
+
+    <script>
+        let musicPlaying = false;
+        let letterOpened = false;
+        let fortuneOpened = false;
+        let giftOpened = false;
+        let audioContext = null;
+        let melodyTimeout = null;
+
+        const compliments = [
+            "Mirel, eres la persona más especial que he conocido 💕",
+            "Tu sonrisa es mi parte favorita del día ✨",
+            "Eres increíblemente hermosa por dentro y por fuera 🌹",
+            "Me encanta todo de ti, Mirel 💖",
+            "Contigo el tiempo vuela porque cada momento es perfecto ⏰",
+            "Tu inteligencia y tu forma de ser me fascinan 🌟",
+            "Eres la razón por la que creo en la magia del amor 💫",
+            "Mirel, eres mi persona favorita en todo el mundo 🌍",
+            "Me haces querer ser mejor cada día 💪",
+            "Eres la definición perfecta de belleza y bondad 👑"
+        ];
+
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️', '🌹', '✨'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 7000);
+            }, 300);
+        }
+
+        function toggleMusic() {
+            const btn = document.getElementById('musicBtn');
+            
+            if (!musicPlaying) {
+                playRomanticSong();
+                btn.classList.add('playing');
+                btn.textContent = '🎶';
+                musicPlaying = true;
+            } else {
+                stopMusic();
+                btn.classList.remove('playing');
+                btn.textContent = '🎵';
+                musicPlaying = false;
+            }
+        }
+
+        function playRomanticSong() {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContext();
+            
+            const romanticMelody = [
+                {freq: 261.63, duration: 0.6}, {freq: 329.63, duration: 0.6},
+                {freq: 392.00, duration: 0.6}, {freq: 523.25, duration: 1.2},
+                {freq: 493.88, duration: 0.4}, {freq: 440.00, duration: 0.4},
+                {freq: 392.00, duration: 0.8}, {freq: 329.63, duration: 0.6},
+                {freq: 392.00, duration: 0.6}, {freq: 349.23, duration: 0.6},
+                {freq: 329.63, duration: 0.6}, {freq: 293.66, duration: 1.2},
+                {freq: 261.63, duration: 0.6}, {freq: 329.63, duration: 0.6},
+                {freq: 293.66, duration: 0.6}, {freq: 261.63, duration: 1.8}
+            ];
+            
+            function playMelody() {
+                let startTime = audioContext.currentTime;
+                
+                romanticMelody.forEach(note => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    oscillator.type = 'sine';
+                    oscillator.frequency.value = note.freq;
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.05);
+                    gainNode.gain.linearRampToValueAtTime(0.1, startTime + note.duration * 0.7);
+                    gainNode.gain.linearRampToValueAtTime(0, startTime + note.duration);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(startTime + note.duration);
+                    startTime += note.duration;
+                });
+                
+                const totalDuration = romanticMelody.reduce((sum, note) => sum + note.duration, 0);
+                
+                if (musicPlaying) {
+                    melodyTimeout = setTimeout(() => {
+                        if (musicPlaying) playMelody();
+                    }, totalDuration * 1000 + 500);
+                }
+            }
+            
+            playMelody();
+        }
+
+        function stopMusic() {
+            musicPlaying = false;
+            if (melodyTimeout) {
+                clearTimeout(melodyTimeout);
+                melodyTimeout = null;
+            }
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+        }
+
+        function sayYes() {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('celebration').classList.add('active');
+            createConfetti();
+            
+            if (!musicPlaying) {
+                playRomanticSong();
+                document.getElementById('musicBtn').classList.add('playing');
+                document.getElementById('musicBtn').textContent = '🎶';
+                musicPlaying = true;
+            }
+        }
+
+        function moveButton() {
+            const button = document.getElementById('noButton');
+            const card = button.closest('.card');
+            const cardRect = card.getBoundingClientRect();
+            
+            const maxX = cardRect.width - button.offsetWidth - 80;
+            const maxY = cardRect.height - button.offsetHeight - 80;
+            
+            const randomX = Math.random() * maxX + 40;
+            const randomY = Math.random() * maxY + 40;
+            
+            button.style.position = 'absolute';
+            button.style.left = randomX + 'px';
+            button.style.top = randomY + 'px';
+            
+            const messages = ['¿Segura?', '¡Piénsalo bien!', '¡Di que sí!', 'Dale, di que sí 💕', '¡Vamos Mirel!', '¡Sabes que quieres! 😊'];
+            button.textContent = messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function createConfetti() {
+            const colors = ['#ff0000', '#ff69b4', '#ff1493', '#ffc0cb', '#ff6b9d', '#ffb6c1'];
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.cssText = `
+                        position: fixed;
+                        width: 10px;
+                        height: 10px;
+                        background-color: ${colors[Math.floor(Math.random() * colors.length)]};
+                        left: ${Math.random() * window.innerWidth}px;
+                        top: -10px;
+                        border-radius: 50%;
+                        z-index: 9999;
+                        pointer-events: none;
+                    `;
+                    document.body.appendChild(confetti);
+                    
+                    const fallDuration = Math.random() * 3 + 2;
+                    const xMovement = (Math.random() - 0.5) * 300;
+                    
+                    confetti.animate([
+                        { transform: 'translateY(0) translateX(0) rotate(0deg)', opacity: 1 },
+                        { transform: `translateY(${window.innerHeight}px) translateX(${xMovement}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: fallDuration * 1000,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+                    
+                    setTimeout(() => confetti.remove(), fallDuration * 1000);
+                }, i * 20);
+            }
+        }
+
+        function roseClick() {
+            const rose = event.target;
+            rose.style.transform = 'scale(1.5) rotate(360deg)';
+            setTimeout(() => rose.style.transform = '', 500);
+            
+            const messages = [
+                '¡Una rosa para Mirel! 🌹',
+                '¡Eres hermosa, Mirel! 💕',
+                '¡Me encantas! 💖',
+                '¡Eres especial! ✨'
+            ];
+            alert(messages[Math.floor(Math.random() * messages.length)]);
+        }
+
+        function openLetter() {
+            const letterContent = document.getElementById('letterContent');
+            if (!letterOpened) {
+                letterContent.classList.add('open');
+                letterOpened = true;
+            }
+        }
+
+        function showMessage(card, message) {
+            const messageDiv = document.getElementById('reasonMessage');
+            messageDiv.textContent = message;
+            card.style.transform = 'scale(1.1) rotate(5deg)';
+            setTimeout(() => card.style.transform = '', 300);
+        }
+
+        function spinWheel() {
+            const display = document.getElementById('complimentDisplay');
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '🎡 Girando...';
+            
+            let counter = 0;
+            const interval = setInterval(() => {
+                display.textContent = compliments[Math.floor(Math.random() * compliments.length)];
+                counter++;
+                if (counter > 10) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    btn.textContent = '🎯 Girar Ruleta';
+                }
+            }, 100);
+        }
+
+        function openGift() {
+            if (!giftOpened) {
+                document.getElementById('giftMessage').classList.add('revealed');
+                giftOpened = true;
+                event.target.style.animation = 'none';
+            }
+        }
+
+        function openFortune() {
+            if (!fortuneOpened) {
+                document.getElementById('fortuneText').classList.add('show');
+                fortuneOpened = true;
+            }
+        }
+
+        // Iniciar la animación de corazones cuando se carga la página
+        window.addEventListener('load', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>
