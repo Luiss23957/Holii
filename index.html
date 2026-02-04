@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Universo - Mirel 🌌</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0a0e27;
+            overflow-x: hidden;
+            color: white;
+        }
+        
+        /* Fondo del espacio */
+        .space-background {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        /* Estrellas brillantes */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; box-shadow: 0 0 10px white; }
+        }
+        
+        /* Estrellas fugaces */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);
+            animation: shoot 3s linear infinite;
+        }
+        
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-300px) translateY(300px);
+                opacity: 0;
+            }
+        }
+        
+        /* Nebulosas de fondo */
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            animation: float 20s infinite alternate;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Contenedor principal */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Pantalla de inicio */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(ellipse at center, #ff1493 0%, #8b008b 50%, #0a0e27 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1.5s, transform 1.5s;
+        }
+        
+        .intro-screen.hidden {
+            opacity: 0;
+            transform: scale(2);
+            pointer-events: none;
+        }
+        
+        .intro-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5em;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(45deg, #ff1493, #ff69b4, #ffd700, #00ffff, #ff1493);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+            margin-bottom: 30px;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .intro-subtitle {
+            font-size: 1.8em;
+            color: white;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+        }
+        
+        .start-journey {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            border: 3px solid #ffd700;
+            padding: 20px 60px;
+            font-size: 1.5em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.8), 0 0 60px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s;
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(255, 20, 147, 0.8), 0 0 60px rgba(255, 105, 180, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(255, 20, 147, 1), 0 0 100px rgba(255, 105, 180, 0.6);
+                transform: scale(1.05);
+            }
+        }
+        
+        .start-journey:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 60px rgba(255, 20, 147, 1), 0 0 120px rgba(255, 105, 180, 0.8);
+        }
+        
+        /* Sistema solar central */
+        .solar-system {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 80px 0;
+        }
+        
+        /* Sol central (Mirel) */
+        .sun {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ffd700, #ff69b4, #ff1493);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            box-shadow: 
+                0 0 60px rgba(255, 215, 0, 0.8),
+                0 0 120px rgba(255, 105, 180, 0.6),
+                0 0 180px rgba(255, 20, 147, 0.4);
+            animation: rotate-sun 20s linear infinite;
+            z-index: 10;
+        }
+        
+        @keyframes rotate-sun {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Órbitas */
+        .orbit {
+            position: absolute;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            border-radius: 50%;
+            animation: rotate-orbit 30s linear infinite;
+        }
+        
+        .orbit-1 {
+            width: 300px;
+            height: 300px;
+            animation-duration: 15s;
+        }
+        
+        .orbit-2 {
+            width: 450px;
+            height: 450px;
+            animation-duration: 25s;
+        }
+        
+        .orbit-3 {
+            width: 600px;
+            height: 600px;
+            animation-duration: 35s;
+        }
+        
+        @keyframes rotate-orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Planetas */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            padding: 10px;
+        }
+        
+        .planet:hover {
+            transform: scale(1.3);
+            z-index: 100;
+        }
+        
+        .planet-1 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff69b4, #ff1493);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+        }
+        
+        .planet-2 {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #00ffff, #0099ff);
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        }
+        
+        .planet-3 {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        }
+        
+        .planet-4 {
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, #9370db, #8b008b);
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            box-shadow: 0 0 30px rgba(147, 112, 219, 0.8);
+        }
+        
+        .planet-5 {
+            width: 85px;
+            height: 85px;
+            background: radial-gradient(circle, #ff1493, #c71585);
+            top: 20%;
+            right: 20%;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
+        }
+        
+        .planet-6 {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #00ff7f, #32cd32);
+            bottom: 20%;
+            left: 20%;
+            box-shadow: 0 0 30px rgba(0, 255, 127, 0.8);
+        }
+        
+        /* Mensaje principal */
+        .main-message {
+            text-align: center;
+            margin: 100px 0;
+            padding: 60px;
+            background: rgba(255, 20, 147, 0.1);
+            border: 3px solid rgba(255, 105, 180, 0.5);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 60px rgba(255, 20, 147, 0.3);
+        }
+        
+        .main-message h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4em;
+            background: linear-gradient(45deg, #ff1493, #ff69b4, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+        }
+        
+        .main-message p {
+            font-size: 1.5em;
+            line-height: 2;
+            color: #fff;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+        
+        /* Galaxia de mensajes */
+        .galaxy-messages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
+        }
+        
+        .message-star {
+            background: rgba(255, 20, 147, 0.15);
+            border: 2px solid rgba(255, 105, 180, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .message-star::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.2) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .message-star:hover {
+            transform: translateY(-10px);
+            border-color: #ff1493;
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.5);
+        }
+        
+        .message-star-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .star-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+            animation: float-icon 3s ease-in-out infinite;
+        }
+        
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .star-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            color: #ff69b4;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+        
+        .star-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+        
+        /* Constelación final */
+        .constellation-final {
+            position: relative;
+            margin: 100px 0;
+            padding: 80px 40px;
+            text-align: center;
+            background: rgba(255, 20, 147, 0.1);
+            border-radius: 30px;
+            border: 3px solid rgba(255, 105, 180, 0.5);
+            overflow: hidden;
+        }
+        
+        .constellation-final::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
+            background-size: 200% 200%;
+            animation: move-stars 50s linear infinite;
+            opacity: 0.5;
+        }
+        
+        @keyframes move-stars {
+            from { background-position: 0 0; }
+            to { background-position: 200% 200%; }
+        }
+        
+        .constellation-title {
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4em;
+            background: linear-gradient(90deg, #ff1493, #ff69b4, #ffd700, #00ffff, #ff1493);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-move 5s ease infinite;
+            margin-bottom: 40px;
+            text-shadow: 0 0 40px rgba(255, 20, 147, 0.8);
+        }
+        
+        @keyframes gradient-move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .constellation-text {
+            position: relative;
+            font-size: 1.6em;
+            line-height: 2.2;
+            color: white;
+            margin: 30px 0;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+        }
+        
+        .constellation-signature {
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            color: #ff69b4;
+            margin-top: 50px;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 1);
+        }
+        
+        /* Botón de música */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            border: 3px solid #ffd700;
+            border-radius: 50%;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
+            transition: all 0.3s;
+            z-index: 1000;
+            animation: pulse-music 2s infinite;
+        }
+        
+        @keyframes pulse-music {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(255, 20, 147, 1), 0 0 80px rgba(255, 105, 180, 0.6);
+            }
+        }
+        
+        .music-control:hover {
+            transform: scale(1.15);
+        }
+        
+        /* Modal de planetas */
+        .planet-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .planet-modal.active {
+            display: flex;
+        }
+        
+        .planet-modal-content {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.3), rgba(139, 0, 139, 0.3));
+            border: 3px solid #ff69b4;
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 600px;
+            width: 90%;
+            backdrop-filter: blur(20px);
+            position: relative;
+            animation: modal-appear 0.5s;
+        }
+        
+        @keyframes modal-appear {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotate(180deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        .close-planet {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5em;
+            color: #ff69b4;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .close-planet:hover {
+            transform: rotate(180deg);
+            color: #ffd700;
+        }
+        
+        .planet-modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+        
+        .planet-modal-text {
+            font-size: 1.2em;
+            line-height: 2;
+            color: white;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .intro-title {
+                font-size: 2.5em;
+            }
+            
+            .main-message h1 {
+                font-size: 2.5em;
+            }
+            
+            .solar-system {
+                height: 400px;
+            }
+            
+            .sun {
+                width: 120px;
+                height: 120px;
+                font-size: 1.2em;
+            }
+            
+            .orbit-1 { width: 200px; height: 200px; }
+            .orbit-2 { width: 300px; height: 300px; }
+            .orbit-3 { width: 400px; height: 400px; }
+            
+            .planet {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 0.7em;
+            }
+            
+            .constellation-title {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo espacial -->
+    <div class="space-background">
+        <div class="stars" id="starsContainer"></div>
+        <div class="nebula" style="width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 20, 147, 0.4), transparent); top: 10%; left: 20%;"></div>
+        <div class="nebula" style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(139, 0, 139, 0.4), transparent); bottom: 10%; right: 10%;"></div>
+        <div class="nebula" style="width: 300px; height: 300px; background: radial-gradient(circle, rgba(0, 255, 255, 0.3), transparent); top: 50%; left: 50%;"></div>
+    </div>
+    
+    <!-- Pantalla de inicio -->
+    <div class="intro-screen" id="introScreen">
+        <h1 class="intro-title">MI UNIVERSO</h1>
+        <p class="intro-subtitle">Un viaje por el espacio de mis sentimientos</p>
+        <button class="start-journey" onclick="startJourney()">COMENZAR EL VIAJE 🚀</button>
+    </div>
+    
+    <!-- Audio -->
+    <audio id="spaceMusic" loop>
+        <source src="mmxxs.mp3" type="audio/mpeg">
+    </audio>
+    
+    <button class="music-control" id="musicBtn" onclick="toggleMusic()">🎵</button>
+    
+    <div class="container" id="mainContent" style="display: none;">
+        
+        <!-- Mensaje principal -->
+        <div class="main-message">
+            <h1>MIREL</h1>
+            <p>Eres lo mejor que me ha pasado en este mundo 🌍</p>
+            <p style="font-size: 1.2em; margin-top: 30px;">
+                En este inmenso universo, entre millones de estrellas y galaxias,<br>
+                tú brillas más que todas ellas juntas ✨
+            </p>
+        </div>
+        
+        <!-- Sistema solar central -->
+        <div class="solar-system">
+            <div class="orbit orbit-1"></div>
+            <div class="orbit orbit-2"></div>
+            <div class="orbit orbit-3"></div>
+            
+            <div class="sun">MIREL<br>💫</div>
+            
+            <div class="planet planet-1" onclick="openPlanetModal('planet1')">
+                💕<br>Amor
+            </div>
+            <div class="planet planet-2" onclick="openPlanetModal('planet2')">
+                ✨<br>Magia
+            </div>
+            <div class="planet planet-3" onclick="openPlanetModal('planet3')">
+                🌟<br>Luz
+            </div>
+            <div class="planet planet-4" onclick="openPlanetModal('planet4')">
+                💫<br>Sueños
+            </div>
+            <div class="planet planet-5" onclick="openPlanetModal('planet5')">
+                🦋<br>Felicidad
+            </div>
+            <div class="planet planet-6" onclick="openPlanetModal('planet6')">
+                🌈<br>Esperanza
+            </div>
+        </div>
+        
+        <!-- Galaxia de mensajes -->
+        <div class="galaxy-messages">
+            <div class="message-star">
+                <div class="message-star-content">
+                    <span class="star-icon">🌌</span>
+                    <h3 class="star-title">Mi Universo Completo</h3>
+                    <p class="star-text">
+                        Antes de conocerte, mi universo estaba vacío. Ahora estás en el centro de todo, como el sol que da vida a cada planeta. Todo gira a tu alrededor porque tú eres mi centro de gravedad.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="message-star">
+                <div class="message-star-content">
+                    <span class="star-icon">⭐</span>
+                    <h3 class="star-title">La Estrella Más Brillante</h3>
+                    <p class="star-text">
+                        En un cielo lleno de estrellas, tú brillas con una luz única. No es solo tu belleza, es tu esencia, tu forma de ser, todo lo que eres. Iluminas mi vida de formas que nunca imaginé posibles.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="message-star">
+                <div class="message-star-content">
+                    <span class="star-icon">🚀</span>
+                    <h3 class="star-title">Viaje Infinito</h3>
+                    <p class="star-text">
+                        Contigo quiero viajar por todo este universo. Explorar cada momento, descubrir cada día juntos, crear nuestra propia galaxia de recuerdos. No hay destino más perfecto que estar a tu lado.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="message-star">
+                <div class="message-star-content">
+                    <span class="star-icon">💫</span>
+                    <h3 class="star-title">Constelación de Momentos</h3>
+                    <p class="star-text">
+                        Cada momento contigo es como una estrella en el cielo. Juntos formamos constelaciones de risas, conversaciones, miradas y sentimientos que brillan eternamente en mi corazón.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="message-star">
+                <div class="message-star-content">
+                    <span class="star-icon">🌠</span>
+                    <h3 class="star-title">Deseo Más Grande</h3>
+                    <p class="star-text">
+                        Si pudiera pedir un deseo a una estrella fugaz, no pediría nada. Porque ya tengo lo que más quiero: tenerte en mi vida, conocerte, estar cerca de ti. Eres mi deseo cumplido.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="message-star">
+                <div class="message-star-content">
+                    <span class="star-icon">🌙</span>
+                    <h3 class="star-title">Mi Luna</h3>
+                    <p class="star-text">
+                        Como la luna acompaña a la tierra, quiero acompañarte siempre. En tus días brillantes y también en las noches oscuras. Estar ahí, orbitando cerca de ti, siendo tu luz cuando la necesites.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mensaje final constelación -->
+        <div class="constellation-final">
+            <h2 class="constellation-title">MIREL, ERES LO MEJOR QUE ME HA PASADO EN ESTE MUNDO</h2>
+            <p class="constellation-text">
+                En este vasto universo, entre billones de estrellas y galaxias infinitas,<br>
+                tú eres el descubrimiento más maravilloso que pude haber hecho.
+            </p>
+            <p class="constellation-text">
+                No importa cuántas estrellas haya en el cielo,<br>
+                ninguna brilla como tú brillas en mi vida.
+            </p>
+            <p class="constellation-text">
+                Eres mi constelación favorita, mi planeta hogar,<br>
+                mi estrella polar que me guía cuando me siento perdido.
+            </p>
+            <p class="constellation-text" style="font-size: 1.8em; color: #ffd700; margin-top: 50px;">
+                Gracias por existir en mi universo 🌌💕
+            </p>
+            <p class="constellation-signature">
+                ∞ Por siempre en mi órbita ∞
+            </p>
+        </div>
+        
+    </div>
+    
+    <!-- Modales de planetas -->
+    <div class="planet-modal" id="planetModal1">
+        <div class="planet-modal-content">
+            <span class="close-planet" onclick="closePlanetModal('planetModal1')">×</span>
+            <h2 class="planet-modal-title">💕 Planeta del Amor 💕</h2>
+            <p class="planet-modal-text">
+                Este planeta representa todo el amor que siento por ti. Un amor que crece cada día, que orbita constantemente alrededor de ti.
+            </p>
+            <p class="planet-modal-text">
+                Es un sentimiento que va más allá de las palabras, más profundo que el espacio mismo. Eres la gravedad que mantiene todo en su lugar.
+            </p>
+        </div>
+    </div>
+    
+    <div class="planet-modal" id="planetModal2">
+        <div class="planet-modal-content">
+            <span class="close-planet" onclick="closePlanetModal('planetModal2')">×</span>
+            <h2 class="planet-modal-title">✨ Planeta de la Magia ✨</h2>
+            <p class="planet-modal-text">
+                Contigo todo es mágico. Conviertes los momentos ordinarios en extraordinarios, las conversaciones simples en recuerdos inolvidables.
+            </p>
+            <p class="planet-modal-text">
+                Tienes ese poder especial de hacer que mi día completo valga la pena con solo un mensaje, una sonrisa, tu presencia.
+            </p>
+        </div>
+    </div>
+    
+    <div class="planet-modal" id="planetModal3">
+        <div class="planet-modal-content">
+            <span class="close-planet" onclick="closePlanetModal('planetModal3')">×</span>
+            <h2 class="planet-modal-title">🌟 Planeta de la Luz 🌟</h2>
+            <p class="planet-modal-text">
+                Eres la luz que ilumina mi universo. Cuando todo parece oscuro, tú brillas y me muestras el camino. Tu energía positiva ilumina todo a tu alrededor.
+            </p>
+            <p class="planet-modal-text">
+                No necesito más estrellas mientras te tenga a ti, porque tú sola iluminas mi cielo completo.
+            </p>
+        </div>
+    </div>
+    
+    <div class="planet-modal" id="planetModal4">
+        <div class="planet-modal-content">
+            <span class="close-planet" onclick="closePlanetModal('planetModal4')">×</span>
+            <h2 class="planet-modal-title">💫 Planeta de los Sueños 💫</h2>
+            <p class="planet-modal-text">
+                Mis sueños ahora tienen tu nombre. Sueño con cada momento que podemos compartir, con todas las aventuras que nos esperan.
+            </p>
+            <p class="planet-modal-text">
+                Este planeta gira lleno de esperanzas y anhelos, todos relacionados contigo. Eres el sueño más hermoso que se volvió realidad.
+            </p>
+        </div>
+    </div>
+    
+    <div class="planet-modal" id="planetModal5">
+        <div class="planet-modal-content">
+            <span class="close-planet" onclick="closePlanetModal('planetModal5')">×</span>
+            <h2 class="planet-modal-title">🦋 Planeta de la Felicidad 🦋</h2>
+            <p class="planet-modal-text">
+                Este planeta está lleno de todas las veces que me has hecho sonreír, reír, sentir esas mariposas en el estómago que solo tú provocas.
+            </p>
+            <p class="planet-modal-text">
+                Eres mi felicidad personificada. Estar contigo o simplemente saber que existes ya me hace feliz.
+            </p>
+        </div>
+    </div>
+    
+    <div class="planet-modal" id="planetModal6">
+        <div class="planet-modal-content">
+            <span class="close-planet" onclick="closePlanetModal('planetModal6')">×</span>
+            <h2 class="planet-modal-title">🌈 Planeta de la Esperanza 🌈</h2>
+            <p class="planet-modal-text">
+                Este planeta representa la esperanza de todo lo que podemos vivir juntos. Cada día es una nueva oportunidad para crear recuerdos contigo.
+            </p>
+            <p class="planet-modal-text">
+                Tengo esperanza en que este viaje por el universo continúe, que sigas siendo parte de mi galaxia por mucho, mucho tiempo.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Crear estrellas
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            
+            // Estrellas normales
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+            
+            // Estrellas fugaces
+            for (let i = 0; i < 5; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = Math.random() * 100 + '%';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.animationDelay = Math.random() * 8 + 's';
+                container.appendChild(shootingStar);
+            }
+        }
+        
+        // Iniciar viaje
+        function startJourney() {
+            document.getElementById('introScreen').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('mainContent').style.display = 'block';
+            }, 500);
+            
+            // Iniciar música
+            const music = document.getElementById('spaceMusic');
+            music.play().catch(e => console.log('Click en botón de música'));
+        }
+        
+        // Control de música
+        let musicPlaying = false;
+        function toggleMusic() {
+            const music = document.getElementById('spaceMusic');
+            const btn = document.getElementById('musicBtn');
+            
+            if (musicPlaying) {
+                music.pause();
+                btn.textContent = '🔇';
+                musicPlaying = false;
+            } else {
+                music.play().catch(e => {
+                    alert('Recuerda poner el archivo "mmxxs.mp3" en la misma carpeta 🎵');
+                });
+                btn.textContent = '🎵';
+                musicPlaying = true;
+            }
+        }
+        
+        // Abrir modal de planeta
+        function openPlanetModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        // Cerrar modal de planeta
+        function closePlanetModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // Cerrar modal al hacer click fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('planet-modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+        
+        // Auto-play música
+        document.addEventListener('click', function initMusic() {
+            const music = document.getElementById('spaceMusic');
+            if (!musicPlaying) {
+                music.play().then(() => {
+                    musicPlaying = true;
+                    document.getElementById('musicBtn').textContent = '🎵';
+                }).catch(e => console.log('...'));
+            }
+        }, { once: true });
+        
+        // Inicializar
+        createStars();
+    </script>
+</body>
+</html>
