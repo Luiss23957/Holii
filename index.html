@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosa Craft — Arreglos para cada momento</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lila-deep:#5b2d8e; --lila-mid:#8b5bbf; --lila-light:#c8a8e9;
+  --lila-pale:#ede0f7; --lila-blush:#f7f0fd; --gold:#c9a96e;
+  --cream:#fdf8f2; --text-dark:#2a1a3e; --text-mid:#5a4a6e;
+  --text-light:#9a8aaa; --shadow-soft:0 8px 40px rgba(91,45,142,0.12);
+  --shadow-hover:0 20px 60px rgba(91,45,142,0.22); --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--lila-blush);color:var(--text-dark);overflow-x:hidden;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--lila-pale);}
+::-webkit-scrollbar-thumb{background:var(--lila-mid);border-radius:10px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,248,242,0.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(200,168,233,0.3);display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:70px;transition:box-shadow 0.3s;}
+nav.scrolled{box-shadow:var(--shadow-soft);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--lila-deep);letter-spacing:0.04em;text-decoration:none;}
+.nav-logo span{color:var(--gold);font-style:italic;}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{text-decoration:none;font-size:0.82rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);transition:color 0.25s;}
+.nav-links a:hover{color:var(--lila-deep);}
+.nav-actions{display:flex;align-items:center;gap:1rem;}
+.cart-btn{position:relative;background:var(--lila-deep);color:white;border:none;border-radius:50px;padding:0.5rem 1.2rem;font-family:'Jost',sans-serif;font-size:0.8rem;letter-spacing:0.1em;cursor:pointer;display:flex;align-items:center;gap:0.5rem;transition:all 0.25s;}
+.cart-btn:hover{background:var(--lila-mid);transform:translateY(-1px);}
+.cart-count{background:var(--gold);color:var(--text-dark);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:500;}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:80px 5% 0;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(200,168,233,0.35) 0%,transparent 70%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-100px;left:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(201,169,110,0.12) 0%,transparent 70%);pointer-events:none;}
+.hero-text{position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(200,168,233,0.25);border:1px solid rgba(200,168,233,0.5);border-radius:50px;padding:0.3rem 1rem;font-size:0.72rem;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--lila-deep);margin-bottom:1.8rem;animation:fadeUp 0.8s ease both;}
+.hero-tag::before{content:'✦';color:var(--gold);}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5.5rem);font-weight:300;line-height:1.05;color:var(--text-dark);margin-bottom:1.5rem;animation:fadeUp 0.8s 0.1s ease both;}
+.hero-title em{color:var(--lila-mid);font-style:italic;font-weight:300;}
+.hero-title strong{display:block;color:var(--lila-deep);font-weight:600;}
+.hero-sub{font-size:1rem;font-weight:300;color:var(--text-mid);line-height:1.8;max-width:420px;margin-bottom:2.5rem;animation:fadeUp 0.8s 0.2s ease both;}
+.hero-btns{display:flex;gap:1rem;animation:fadeUp 0.8s 0.3s ease both;}
+.btn-primary{background:var(--lila-deep);color:white;border:none;border-radius:50px;padding:0.85rem 2.2rem;font-family:'Jost',sans-serif;font-size:0.85rem;letter-spacing:0.1em;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;}
+.btn-primary:hover{background:var(--lila-mid);transform:translateY(-2px);box-shadow:0 12px 30px rgba(91,45,142,0.3);}
+.btn-secondary{background:transparent;color:var(--lila-deep);border:1.5px solid var(--lila-light);border-radius:50px;padding:0.85rem 2rem;font-family:'Jost',sans-serif;font-size:0.85rem;letter-spacing:0.1em;cursor:pointer;transition:all 0.3s;text-decoration:none;}
+.btn-secondary:hover{background:var(--lila-pale);border-color:var(--lila-mid);transform:translateY(-2px);}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2.5rem;border-top:1px solid rgba(200,168,233,0.3);animation:fadeUp 0.8s 0.4s ease both;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--lila-deep);display:block;}
+.stat-label{font-size:0.72rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);}
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center;height:100%;min-height:70vh;animation:fadeUp 0.8s 0.2s ease both;}
+.hero-flower-bg{position:absolute;width:520px;height:520px;background:radial-gradient(circle,rgba(200,168,233,0.3) 0%,rgba(232,212,168,0.15) 50%,transparent 70%);border-radius:50%;animation:pulse 4s ease-in-out infinite;}
+.hero-flower-svg{position:relative;z-index:1;width:420px;height:420px;filter:drop-shadow(0 30px 60px rgba(91,45,142,0.25));}
+.floating-badge{position:absolute;background:white;border-radius:14px;padding:0.8rem 1.2rem;box-shadow:var(--shadow-soft);display:flex;align-items:center;gap:0.7rem;font-size:0.78rem;color:var(--text-dark);}
+.fb-icon{font-size:1.5rem;}
+.fb-label{font-weight:300;color:var(--text-light);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;}
+.fb-value{font-weight:500;color:var(--lila-deep);}
+.badge-delivery{bottom:20%;left:-5%;animation:float 3s ease-in-out infinite;}
+.badge-rating{top:20%;right:-5%;animation:float 3s 1.5s ease-in-out infinite;}
+
+/* SECTION COMMON */
+.section{padding:6rem 5%;}
+.section-header{text-align:center;margin-bottom:3.5rem;}
+.section-tag{display:inline-block;font-size:0.72rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;color:var(--text-dark);line-height:1.2;}
+.section-title em{font-style:italic;color:var(--lila-mid);}
+
+/* CATEGORIES */
+.categories-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;}
+.cat-card{background:white;border-radius:var(--radius);padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all 0.3s;border:2px solid transparent;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;}
+.cat-card:hover{border-color:var(--lila-light);box-shadow:var(--shadow-soft);transform:translateY(-4px);}
+.cat-emoji{font-size:2.5rem;display:block;margin-bottom:0.7rem;}
+.cat-name{font-size:0.82rem;font-weight:500;color:var(--text-dark);display:block;margin-bottom:0.2rem;}
+.cat-count{font-size:0.7rem;color:var(--text-light);}
+
+/* FEATURED */
+.featured-section{background:white;padding:5rem 5%;}
+.featured-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.8rem;}
+.product-card{background:var(--lila-blush);border-radius:var(--radius);overflow:hidden;transition:all 0.35s;position:relative;cursor:pointer;border:1px solid transparent;text-decoration:none;color:inherit;display:block;}
+.product-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover);border-color:rgba(200,168,233,0.4);}
+.product-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:4.5rem;position:relative;overflow:hidden;}
+.product-img-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,168,233,0.25),rgba(232,212,168,0.2));}
+.product-emoji{position:relative;z-index:1;filter:drop-shadow(0 8px 20px rgba(91,45,142,0.2));transition:transform 0.3s;}
+.product-card:hover .product-emoji{transform:scale(1.1) rotate(5deg);}
+.badge-pop{position:absolute;top:12px;left:12px;background:var(--gold);color:var(--text-dark);border-radius:50px;padding:0.25rem 0.8rem;font-size:0.65rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;z-index:2;}
+.product-body{padding:1.2rem 1.3rem 1.4rem;}
+.product-cat{font-size:0.67rem;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--lila-mid);margin-bottom:0.35rem;display:block;}
+.product-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--text-dark);margin-bottom:0.8rem;}
+.product-footer{display:flex;align-items:center;justify-content:space-between;}
+.product-price{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--lila-deep);}
+.add-btn{background:var(--lila-deep);color:white;border:none;border-radius:50px;padding:0.5rem 1.1rem;font-family:'Jost',sans-serif;font-size:0.78rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.25s;}
+.add-btn:hover{background:var(--lila-mid);transform:scale(1.05);}
+.view-all-wrap{text-align:center;margin-top:3rem;}
+
+/* FEATURES */
+.features-section{padding:5rem 5%;background:var(--text-dark);color:white;}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3rem;}
+.feature-card{text-align:center;padding:2rem 1.5rem;border-radius:var(--radius);background:rgba(255,255,255,0.05);border:1px solid rgba(200,168,233,0.15);transition:all 0.3s;}
+.feature-card:hover{background:rgba(200,168,233,0.1);border-color:rgba(200,168,233,0.35);transform:translateY(-4px);}
+.feature-icon{font-size:2.5rem;display:block;margin-bottom:1rem;}
+.feature-title{font-size:0.9rem;font-weight:500;letter-spacing:0.05em;margin-bottom:0.5rem;color:var(--lila-light);}
+.feature-desc{font-size:0.78rem;font-weight:300;color:rgba(255,255,255,0.55);line-height:1.7;}
+
+/* FOOTER */
+footer{background:var(--text-dark);color:rgba(255,255,255,0.6);padding:4rem 5% 2rem;border-top:1px solid rgba(200,168,233,0.1);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.footer-desc{font-size:0.8rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,0.5);max-width:280px;}
+.footer-col h4{font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--lila-light);margin-bottom:1.2rem;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:0.6rem;}
+.footer-col ul li a{text-decoration:none;font-size:0.8rem;font-weight:300;color:rgba(255,255,255,0.5);transition:color 0.25s;}
+.footer-col ul li a:hover{color:var(--lila-light);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:rgba(255,255,255,0.3);}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text-dark);color:white;padding:0.8rem 1.8rem;border-radius:50px;font-size:0.82rem;font-weight:300;z-index:300;opacity:0;transition:all 0.35s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;padding-top:90px;}
+  .hero-visual{display:none;}
+  .categories-grid{grid-template-columns:repeat(3,1fr);}
+  .features-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .nav-links{display:none;}
+  .featured-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">Mosa <span>Craft</span></a>
+  <ul class="nav-links">
+    <li><a href="catalogo.html">Catálogo</a></li>
+    <li><a href="#categorias">Categorías</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="goToCart()">
+      🛒 Mi carrito
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <span class="hero-tag">Arreglos Artesanales Premium</span>
+    <h1 class="hero-title">
+      Creamos arreglos<br>
+      <em>para cada</em><br>
+      <strong>momento especial.</strong>
+    </h1>
+    <p class="hero-sub">Graduaciones, bodas, cumpleaños, bolsitas personalizadas y más. Diseños únicos hechos con amor, listos para sorprender.</p>
+    <div class="hero-btns">
+      <a href="catalogo.html" class="btn-primary">Ver catálogo completo →</a>
+      <a href="#categorias" class="btn-secondary">Explorar</a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="stat-num">500+</span><span class="stat-label">Clientes felices</span></div>
+      <div><span class="stat-num">80+</span><span class="stat-label">Diseños únicos</span></div>
+      <div><span class="stat-num">4.9★</span><span class="stat-label">Calificación</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-flower-bg"></div>
+    <div class="hero-flower-svg">
+      <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="pg1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c8a8e9" stop-opacity="0.9"/><stop offset="100%" stop-color="#8b5bbf" stop-opacity="0.7"/></radialGradient>
+          <radialGradient id="pg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#e8d4a8" stop-opacity="0.9"/><stop offset="100%" stop-color="#c9a96e" stop-opacity="0.7"/></radialGradient>
+          <radialGradient id="pg3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f0d0f5" stop-opacity="0.9"/><stop offset="100%" stop-color="#c8a8e9" stop-opacity="0.6"/></radialGradient>
+        </defs>
+        <g transform="translate(210,210)">
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(0) translate(0,-70)" opacity="0.85"/>
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(45) translate(0,-70)" opacity="0.8"/>
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(90) translate(0,-70)" opacity="0.85"/>
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(135) translate(0,-70)" opacity="0.8"/>
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(180) translate(0,-70)" opacity="0.85"/>
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(225) translate(0,-70)" opacity="0.8"/>
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(270) translate(0,-70)" opacity="0.85"/>
+          <ellipse rx="52" ry="110" fill="url(#pg1)" transform="rotate(315) translate(0,-70)" opacity="0.8"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(22) translate(0,-48)" opacity="0.9"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(67) translate(0,-48)" opacity="0.9"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(112) translate(0,-48)" opacity="0.9"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(157) translate(0,-48)" opacity="0.9"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(202) translate(0,-48)" opacity="0.9"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(247) translate(0,-48)" opacity="0.9"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(292) translate(0,-48)" opacity="0.9"/>
+          <ellipse rx="32" ry="70" fill="url(#pg3)" transform="rotate(337) translate(0,-48)" opacity="0.9"/>
+          <circle r="45" fill="url(#pg2)" opacity="0.95"/>
+          <circle r="28" fill="#e8d4a8" opacity="0.9"/>
+          <circle r="14" fill="#c9a96e" opacity="0.95"/>
+          <circle r="6" fill="#ffffff" opacity="0.8"/>
+        </g>
+        <g transform="translate(80,100)" opacity="0.7">
+          <ellipse rx="18" ry="36" fill="#c8a8e9" transform="rotate(0) translate(0,-24)"/>
+          <ellipse rx="18" ry="36" fill="#c8a8e9" transform="rotate(72) translate(0,-24)"/>
+          <ellipse rx="18" ry="36" fill="#c8a8e9" transform="rotate(144) translate(0,-24)"/>
+          <ellipse rx="18" ry="36" fill="#c8a8e9" transform="rotate(216) translate(0,-24)"/>
+          <ellipse rx="18" ry="36" fill="#c8a8e9" transform="rotate(288) translate(0,-24)"/>
+          <circle r="14" fill="#e8d4a8"/>
+        </g>
+        <g transform="translate(340,320)" opacity="0.6">
+          <ellipse rx="14" ry="28" fill="#8b5bbf" transform="rotate(0) translate(0,-19)"/>
+          <ellipse rx="14" ry="28" fill="#8b5bbf" transform="rotate(72) translate(0,-19)"/>
+          <ellipse rx="14" ry="28" fill="#8b5bbf" transform="rotate(144) translate(0,-19)"/>
+          <ellipse rx="14" ry="28" fill="#8b5bbf" transform="rotate(216) translate(0,-19)"/>
+          <ellipse rx="14" ry="28" fill="#8b5bbf" transform="rotate(288) translate(0,-19)"/>
+          <circle r="10" fill="#c9a96e"/>
+        </g>
+        <path d="M 150 320 Q 130 280 160 260 Q 170 300 150 320 Z" fill="#7cad6e" opacity="0.65"/>
+        <path d="M 280 340 Q 300 310 270 285 Q 260 315 280 340 Z" fill="#7cad6e" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="floating-badge badge-delivery">
+      <span class="fb-icon">🚚</span>
+      <div><span class="fb-label">Entrega</span><span class="fb-value" style="display:block">Mismo día</span></div>
+    </div>
+    <div class="floating-badge badge-rating">
+      <span class="fb-icon">⭐</span>
+      <div><span class="fb-label">Calificación</span><span class="fb-value" style="display:block">4.9 / 5.0</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORÍAS -->
+<section class="section" id="categorias">
+  <div class="section-header">
+    <span class="section-tag">✦ Explora</span>
+    <h2 class="section-title">Nuestras <em>categorías</em></h2>
+  </div>
+  <div class="categories-grid">
+    <a href="catalogo.html?cat=all" class="cat-card">
+      <span class="cat-emoji">🌸</span><span class="cat-name">Todo</span><span class="cat-count">40+ productos</span>
+    </a>
+    <a href="catalogo.html?cat=graduacion" class="cat-card">
+      <span class="cat-emoji">🎓</span><span class="cat-name">Graduación</span><span class="cat-count">10 productos</span>
+    </a>
+    <a href="catalogo.html?cat=bodas" class="cat-card">
+      <span class="cat-emoji">💍</span><span class="cat-name">Bodas</span><span class="cat-count">10 productos</span>
+    </a>
+    <a href="catalogo.html?cat=bolsitas" class="cat-card">
+      <span class="cat-emoji">🎀</span><span class="cat-name">Bolsitas & Stickers</span><span class="cat-count">8 productos</span>
+    </a>
+    <a href="catalogo.html?cat=flores" class="cat-card">
+      <span class="cat-emoji">💐</span><span class="cat-name">Arreglos Florales</span><span class="cat-count">12 productos</span>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured-section">
+  <div class="section-header">
+    <span class="section-tag">✦ Destacados</span>
+    <h2 class="section-title">Más <em>populares</em></h2>
+  </div>
+  <div class="featured-grid" id="featuredGrid"></div>
+  <div class="view-all-wrap">
+    <a href="catalogo.html" class="btn-primary" style="display:inline-flex">Ver catálogo completo →</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-header">
+    <span class="section-tag" style="color:var(--gold)">✦ Por qué elegirnos</span>
+    <h2 class="section-title" style="color:white">El cuidado que <em style="color:var(--lila-light)">mereces</em></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card"><span class="feature-icon">✨</span><div class="feature-title">100% Artesanal</div><div class="feature-desc">Cada arreglo es diseñado a mano con materiales de la más alta calidad.</div></div>
+    <div class="feature-card"><span class="feature-icon">🚚</span><div class="feature-title">Entrega Express</div><div class="feature-desc">Pedidos antes de las 2pm entregados el mismo día. Seguimiento en tiempo real.</div></div>
+    <div class="feature-card"><span class="feature-icon">🎁</span><div class="feature-title">Empaque Premium</div><div class="feature-desc">Cada arreglo viene en empaque artesanal con tarjeta personalizada incluida.</div></div>
+    <div class="feature-card"><span class="feature-icon">💜</span><div class="feature-title">Personalización</div><div class="feature-desc">¿Quieres algo único? Contáctanos y creamos el arreglo ideal para ti.</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contacto">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" style="display:block;margin-bottom:1rem;color:white;text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;">Mosa <span style="color:var(--gold);font-style:italic">Craft</span></a>
+      <p class="footer-desc">Arreglos artesanales para cada momento especial: graduaciones, bodas, cumpleaños y mucho más.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="catalogo.html?cat=graduacion">Graduación</a></li>
+        <li><a href="catalogo.html?cat=bodas">Bodas</a></li>
+        <li><a href="catalogo.html?cat=bolsitas">Bolsitas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Servicio</h4>
+      <ul>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="pago.html">Cómo pagar</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+528181234567">📞 (81) 8123-4567</a></li>
+        <li><a href="mailto:hola@mosacraft.mx">✉️ hola@mosacraft.mx</a></li>
+        <li><a href="#">📍 Monterrey, NL</a></li>
+        <li><a href="#">⏰ Lun–Sáb 8–20h</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Mosa Craft — Todos los derechos reservados.</span>
+    <span>Hecho con 💜 en México</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CART_KEY = 'mosacraft_cart';
+const featured = [
+  {id:1,name:'Arreglo de Graduación',cat:'graduacion',emoji:'🎓',desc:'Bouquet especial para graduados con girasoles y globos.',price:450,badge:'pop'},
+  {id:2,name:'Centro de Mesa Boda',cat:'bodas',emoji:'💍',desc:'Arreglo elegante de rosas blancas y verdes para bodas.',price:890,badge:null},
+  {id:3,name:'Bolsita con Stickers',cat:'bolsitas',emoji:'🎀',desc:'Bolsita artesanal personalizada con stickers y dulces.',price:120,badge:'pop'},
+  {id:4,name:'Ramo Romántico',cat:'flores',emoji:'💐',desc:'Rosas y lilies para ocasiones románticas especiales.',price:340,badge:null},
+];
+
+function getCart(){ try{return JSON.parse(localStorage.getItem(CART_KEY))||[];}catch{return[];} }
+function saveCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); }
+function updateCount(){
+  const n = getCart().reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cartCount').textContent = n;
+}
+function addToCart(id){
+  const p = featured.find(x=>x.id===id);
+  const cart = getCart();
+  const ex = cart.find(c=>c.id===id);
+  if(ex) ex.qty++; else cart.push({...p,qty:1});
+  saveCart(cart);
+  updateCount();
+  showToast(`${p.emoji} ${p.name} agregado al carrito`);
+  document.getElementById(`addBtn${id}`).textContent = '✓ Agregado';
+  document.getElementById(`addBtn${id}`).style.background = '#5c9e7a';
+}
+function goToCart(){ window.location.href='pago.html'; }
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+document.getElementById('featuredGrid').innerHTML = featured.map(p=>`
+  <a class="product-card" href="catalogo.html">
+    <div class="product-img">
+      <div class="product-img-bg"></div>
+      ${p.badge?`<span class="badge-pop">🔥 Popular</span>`:''}
+      <span class="product-emoji">${p.emoji}</span>
+    </div>
+    <div class="product-body">
+      <span class="product-cat">${p.cat}</span>
+      <h3 class="product-name">${p.name}</h3>
+      <div class="product-footer">
+        <span class="product-price">$${p.price}</span>
+        <button class="add-btn" id="addBtn${p.id}" onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})">+ Agregar</button>
+      </div>
+    </div>
+  </a>`).join('');
+
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>50));
+updateCount();
+</script>
+</body>
+</html>

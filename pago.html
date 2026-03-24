@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finalizar Pedido — Mosa Craft</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lila-deep:#5b2d8e;--lila-mid:#8b5bbf;--lila-light:#c8a8e9;
+  --lila-pale:#ede0f7;--lila-blush:#f7f0fd;--gold:#c9a96e;
+  --cream:#fdf8f2;--text-dark:#2a1a3e;--text-mid:#5a4a6e;
+  --text-light:#9a8aaa;--shadow-soft:0 8px 40px rgba(91,45,142,0.12);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;background:var(--lila-blush);color:var(--text-dark);min-height:100vh;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--lila-pale);}
+::-webkit-scrollbar-thumb{background:var(--lila-mid);border-radius:10px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,248,242,0.97);backdrop-filter:blur(18px);border-bottom:1px solid rgba(200,168,233,0.3);display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:70px;box-shadow:var(--shadow-soft);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--lila-deep);letter-spacing:0.04em;text-decoration:none;}
+.nav-logo span{color:var(--gold);font-style:italic;}
+.back-link{display:flex;align-items:center;gap:0.5rem;text-decoration:none;font-size:0.82rem;font-weight:400;color:var(--text-mid);letter-spacing:0.05em;transition:color 0.2s;}
+.back-link:hover{color:var(--lila-deep);}
+
+/* STEPS */
+.steps-bar{background:white;border-bottom:1px solid var(--lila-pale);display:flex;justify-content:center;}
+.steps{display:flex;align-items:center;padding:1.2rem 0;}
+.step{display:flex;align-items:center;gap:0.6rem;padding:0 2rem;font-size:0.78rem;font-weight:400;color:var(--text-light);letter-spacing:0.05em;}
+.step.active{color:var(--lila-deep);font-weight:500;}
+.step.done{color:var(--lila-mid);}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:500;background:var(--lila-pale);color:var(--text-light);flex-shrink:0;}
+.step.active .step-num{background:var(--lila-deep);color:white;}
+.step.done .step-num{background:var(--lila-mid);color:white;}
+.step-sep{width:40px;height:2px;background:var(--lila-pale);}
+.step-sep.done{background:var(--lila-mid);}
+
+/* MAIN */
+.checkout-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 5% 5rem;margin-top:130px;}
+.checkout-header{margin-bottom:2.5rem;}
+.checkout-header h1{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--text-dark);}
+.checkout-header p{font-size:0.85rem;font-weight:300;color:var(--text-light);margin-top:0.4rem;}
+
+.checkout-grid{display:grid;grid-template-columns:1fr 380px;gap:2.5rem;align-items:start;}
+
+/* SECTION CARDS */
+.section-card{background:white;border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow-soft);}
+.section-card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--text-dark);margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--lila-pale);display:flex;align-items:center;gap:0.6rem;}
+
+/* ── CART ITEMS ── */
+.cart-item{
+  display:grid;
+  grid-template-columns:64px 1fr auto auto auto;
+  align-items:center;
+  gap:1rem;
+  padding:1rem 0;
+  border-bottom:1px solid var(--lila-pale);
+}
+.cart-item:last-child{border-bottom:none;}
+
+.ci-emoji{
+  width:64px;height:64px;
+  background:linear-gradient(135deg,var(--lila-blush),var(--lila-pale));
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;
+  flex-shrink:0;
+}
+.ci-info{min-width:0;}
+.ci-name{font-size:0.92rem;font-weight:500;color:var(--text-dark);margin-bottom:0.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ci-cat{font-size:0.68rem;font-weight:300;color:var(--text-light);letter-spacing:0.1em;text-transform:uppercase;}
+
+.ci-qty{display:flex;align-items:center;gap:0.4rem;}
+.qty-btn{background:var(--lila-pale);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1;cursor:pointer;color:var(--lila-deep);transition:background 0.2s;flex-shrink:0;}
+.qty-btn:hover{background:var(--lila-light);color:white;}
+.qty-num{font-size:0.88rem;font-weight:600;min-width:22px;text-align:center;color:var(--text-dark);}
+
+.ci-price{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--lila-deep);white-space:nowrap;}
+
+.ci-remove{background:none;border:none;color:#e05a7a;font-size:1rem;cursor:pointer;opacity:0.45;transition:opacity 0.2s;padding:0.3rem;border-radius:6px;flex-shrink:0;}
+.ci-remove:hover{opacity:1;background:#fff0f3;}
+
+/* Empty cart */
+.empty-cart{text-align:center;padding:3rem;}
+.empty-cart-icon{font-size:3.5rem;display:block;margin-bottom:1rem;}
+.go-shop-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--lila-deep);color:white;text-decoration:none;border-radius:50px;padding:0.7rem 1.8rem;font-size:0.82rem;letter-spacing:0.1em;margin-top:1rem;transition:all 0.25s;}
+.go-shop-btn:hover{background:var(--lila-mid);}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-full{grid-column:1/-1;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;}
+.form-label{font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-mid);}
+.form-input,.form-select,.form-textarea{background:var(--lila-blush);border:1.5px solid var(--lila-pale);border-radius:10px;padding:0.7rem 1rem;font-size:0.85rem;font-family:'Jost',sans-serif;color:var(--text-dark);outline:none;transition:all 0.25s;width:100%;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--lila-mid);background:white;box-shadow:0 0 0 3px rgba(139,91,191,0.08);}
+.form-input::placeholder{color:var(--text-light);}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+
+/* PAYMENT METHODS */
+.pay-methods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;margin-bottom:1.5rem;}
+.pay-method{background:var(--lila-blush);border:2px solid var(--lila-pale);border-radius:12px;padding:1.1rem 0.8rem;text-align:center;cursor:pointer;transition:all 0.25s;}
+.pay-method:hover{border-color:var(--lila-light);background:var(--lila-pale);}
+.pay-method.selected{border-color:var(--lila-deep);background:var(--lila-pale);}
+.pm-icon{font-size:1.8rem;display:block;margin-bottom:0.4rem;}
+.pm-name{font-size:0.75rem;font-weight:500;color:var(--text-dark);display:block;}
+.pm-sub{font-size:0.65rem;color:var(--text-light);font-weight:300;}
+
+/* PAYMENT PANELS */
+.pay-detail{display:none;background:var(--lila-blush);border-radius:12px;padding:1.5rem;border:1.5px solid var(--lila-pale);margin-top:0.5rem;}
+.pay-detail.show{display:block;animation:fadeUp 0.3s ease both;}
+.pay-detail h4{font-size:0.78rem;font-weight:500;color:var(--lila-deep);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;}
+
+/* CARD VISUAL */
+.card-visual{background:linear-gradient(135deg,var(--lila-deep),var(--lila-mid));border-radius:14px;padding:1.5rem;color:white;margin-bottom:1rem;position:relative;overflow:hidden;}
+.card-visual::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(255,255,255,0.08);border-radius:50%;}
+.card-visual::after{content:'';position:absolute;bottom:-20px;left:20px;width:80px;height:80px;background:rgba(255,255,255,0.06);border-radius:50%;}
+.card-chip{font-size:1.5rem;margin-bottom:1rem;display:block;}
+.card-number-display{font-size:1rem;letter-spacing:0.2em;font-weight:300;margin-bottom:1rem;opacity:0.85;}
+.card-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
+.card-name-display{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.75;}
+.card-exp{font-size:0.75rem;opacity:0.75;}
+
+/* INFO BOXES */
+.info-box{background:white;border-radius:10px;padding:1.2rem;border-left:3px solid var(--lila-mid);}
+.info-box p{font-size:0.82rem;font-weight:300;color:var(--text-mid);line-height:1.7;}
+.info-box strong{color:var(--lila-deep);font-weight:500;}
+.info-box .copy-data{background:var(--lila-pale);border-radius:8px;padding:0.7rem 1rem;margin-top:0.8rem;font-family:monospace;font-size:0.82rem;color:var(--text-dark);}
+
+/* ORDER SUMMARY */
+.order-summary{background:white;border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow-soft);position:sticky;top:150px;}
+.summary-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--text-dark);margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--lila-pale);}
+
+/* Mini items in summary */
+.summary-items-mini{margin-bottom:1.2rem;}
+.si-mini{display:flex;align-items:center;gap:0.7rem;padding:0.55rem 0;border-bottom:1px solid var(--lila-pale);}
+.si-mini:last-child{border-bottom:none;}
+.si-em{
+  font-size:1.6rem;
+  width:40px;height:40px;
+  background:var(--lila-blush);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.si-name{flex:1;font-size:0.8rem;font-weight:300;color:var(--text-mid);line-height:1.3;}
+.si-qty-badge{background:var(--lila-pale);color:var(--lila-deep);border-radius:50px;padding:0.1rem 0.45rem;font-size:0.65rem;font-weight:500;margin-right:0.3rem;}
+.si-p{font-size:0.85rem;font-weight:500;color:var(--lila-deep);white-space:nowrap;}
+
+.summary-lines{margin-bottom:1.5rem;}
+.summary-line{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;font-size:0.84rem;}
+.summary-line .sl-label{color:var(--text-mid);font-weight:300;}
+.summary-line .sl-value{font-weight:400;color:var(--text-dark);}
+.summary-line.total{border-top:2px solid var(--lila-pale);padding-top:1rem;margin-top:0.5rem;}
+.summary-line.total .sl-label{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--text-dark);}
+.summary-line.total .sl-value{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--lila-deep);}
+
+.checkout-btn{width:100%;background:linear-gradient(135deg,var(--lila-deep),var(--lila-mid));color:white;border:none;border-radius:50px;padding:1.1rem;font-family:'Jost',sans-serif;font-size:0.9rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.3s;margin-bottom:0.8rem;}
+.checkout-btn:hover{box-shadow:0 14px 35px rgba(91,45,142,0.35);transform:translateY(-2px);}
+.checkout-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none;}
+.security-row{display:flex;justify-content:center;gap:1.2rem;margin-top:0.5rem;}
+.sec-badge{display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:var(--text-light);}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text-dark);color:white;padding:0.8rem 1.8rem;border-radius:50px;font-size:0.82rem;font-weight:300;z-index:300;opacity:0;transition:all 0.35s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes bounce{0%{transform:scale(0);}60%{transform:scale(1.2);}100%{transform:scale(1);}}
+
+@media(max-width:900px){
+  .checkout-grid{grid-template-columns:1fr;}
+  .order-summary{position:static;}
+  .steps{flex-wrap:wrap;justify-content:center;gap:0.5rem;}
+  .step-sep{display:none;}
+  .pay-methods{grid-template-columns:1fr 1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .cart-item{grid-template-columns:56px 1fr auto;grid-template-rows:auto auto;}
+  .ci-price{grid-column:2;grid-row:2;}
+  .ci-remove{grid-column:3;grid-row:1;}
+  .ci-qty{grid-column:2;grid-row:2;justify-self:end;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Mosa <span>Craft</span></a>
+  <a class="back-link" href="catalogo.html">← Seguir comprando</a>
+</nav>
+
+<div style="height:70px"></div>
+
+<div class="steps-bar">
+  <div class="steps">
+    <div class="step done" id="step1"><span class="step-num">✓</span> Carrito</div>
+    <div class="step-sep done"></div>
+    <div class="step active" id="step2"><span class="step-num">2</span> Entrega</div>
+    <div class="step-sep" id="sep2"></div>
+    <div class="step" id="step3"><span class="step-num">3</span> Pago</div>
+    <div class="step-sep" id="sep3"></div>
+    <div class="step" id="step4"><span class="step-num">4</span> Confirmación</div>
+  </div>
+</div>
+
+<div class="checkout-wrap" id="checkoutWrap">
+  <div class="checkout-header">
+    <h1>Finalizar <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--lila-mid)">pedido</em></h1>
+    <p>Completa tu información de entrega y elige cómo pagar.</p>
+  </div>
+
+  <div class="checkout-grid">
+    <!-- LEFT COLUMN -->
+    <div class="checkout-left">
+
+      <!-- CARRITO -->
+      <div class="section-card">
+        <div class="section-card-title">🛒 Tu pedido</div>
+        <div id="cartItemsWrap"></div>
+      </div>
+
+      <!-- ENTREGA -->
+      <div class="section-card" id="deliveryCard">
+        <div class="section-card-title">📍 Información de entrega</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Nombre *</label>
+            <input class="form-input" type="text" id="nombre" placeholder="Tu nombre completo">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono *</label>
+            <input class="form-input" type="tel" id="telefono" placeholder="(81) 1234-5678">
+          </div>
+          <div class="form-group form-full">
+            <label class="form-label">Dirección de entrega *</label>
+            <input class="form-input" type="text" id="direccion" placeholder="Calle, número, colonia">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ciudad *</label>
+            <input class="form-input" type="text" id="ciudad" placeholder="Monterrey">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Código Postal</label>
+            <input class="form-input" type="text" id="cp" placeholder="64000" maxlength="5">
+          </div>
+          <div class="form-group form-full">
+            <label class="form-label">Fecha de entrega *</label>
+            <input class="form-input" type="date" id="fecha">
+          </div>
+          <div class="form-group form-full">
+            <label class="form-label">Nota para el arreglo (opcional)</label>
+            <textarea class="form-textarea" id="nota" placeholder="Ej: 'Con todo mi amor para ti', o instrucciones especiales de entrega..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGO -->
+      <div class="section-card" id="paymentCard">
+        <div class="section-card-title">💳 Método de pago</div>
+
+        <div class="pay-methods">
+          <div class="pay-method selected" data-method="tarjeta" onclick="selectMethod('tarjeta',this)">
+            <span class="pm-icon">💳</span>
+            <span class="pm-name">Tarjeta</span>
+            <span class="pm-sub">Crédito / Débito</span>
+          </div>
+          <div class="pay-method" data-method="paypal" onclick="selectMethod('paypal',this)">
+            <span class="pm-icon">📱</span>
+            <span class="pm-name">PayPal</span>
+            <span class="pm-sub">Pago en línea</span>
+          </div>
+          <div class="pay-method" data-method="mercadopago" onclick="selectMethod('mercadopago',this)">
+            <span class="pm-icon">🛍️</span>
+            <span class="pm-name">Mercado Pago</span>
+            <span class="pm-sub">Hasta 12 MSI</span>
+          </div>
+          <div class="pay-method" data-method="spei" onclick="selectMethod('spei',this)">
+            <span class="pm-icon">🏦</span>
+            <span class="pm-name">SPEI</span>
+            <span class="pm-sub">Transferencia</span>
+          </div>
+          <div class="pay-method" data-method="oxxo" onclick="selectMethod('oxxo',this)">
+            <span class="pm-icon">🏪</span>
+            <span class="pm-name">OXXO / 7-Eleven</span>
+            <span class="pm-sub">Pago en efectivo</span>
+          </div>
+          <div class="pay-method" data-method="applepay" onclick="selectMethod('applepay',this)">
+            <span class="pm-icon">🍏</span>
+            <span class="pm-name">Apple / Google Pay</span>
+            <span class="pm-sub">Un toque</span>
+          </div>
+        </div>
+
+        <!-- TARJETA -->
+        <div class="pay-detail show" id="detail-tarjeta">
+          <h4>💳 Datos de tu tarjeta</h4>
+          <div class="card-visual">
+            <span class="card-chip">💳</span>
+            <div class="card-number-display" id="cardNumDisplay">•••• •••• •••• ••••</div>
+            <div class="card-bottom">
+              <span class="card-name-display" id="cardNameDisplay">NOMBRE COMPLETO</span>
+              <span class="card-exp" id="cardExpDisplay">MM/AA</span>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group form-full">
+              <label class="form-label">Número de tarjeta</label>
+              <input class="form-input" type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCard(this); document.getElementById('cardNumDisplay').textContent=this.value||'•••• •••• •••• ••••'">
+            </div>
+            <div class="form-group form-full">
+              <label class="form-label">Nombre en la tarjeta</label>
+              <input class="form-input" type="text" placeholder="Como aparece en la tarjeta" oninput="document.getElementById('cardNameDisplay').textContent=this.value.toUpperCase()||'NOMBRE COMPLETO'">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Vencimiento</label>
+              <input class="form-input" type="text" placeholder="MM/AA" maxlength="5" oninput="formatExp(this); document.getElementById('cardExpDisplay').textContent=this.value||'MM/AA'">
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVV</label>
+              <input class="form-input" type="text" placeholder="•••" maxlength="4">
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYPAL -->
+        <div class="pay-detail" id="detail-paypal">
+          <h4>📱 Pagar con PayPal</h4>
+          <div class="info-box">
+            <p>Al confirmar tu pedido serás redirigido a <strong>PayPal</strong> para completar el pago de forma segura.</p>
+            <p style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-light);">✅ Compra protegida por PayPal. Sin compartir datos bancarios.</p>
+          </div>
+        </div>
+
+        <!-- MERCADO PAGO -->
+        <div class="pay-detail" id="detail-mercadopago">
+          <h4>🛍️ Pagar con Mercado Pago</h4>
+          <div class="info-box">
+            <p>Paga con <strong>Mercado Pago</strong> y aprovecha hasta <strong>12 mensualidades sin intereses</strong>.</p>
+            <p style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-light);">✅ Protección al comprador incluida.</p>
+          </div>
+        </div>
+
+        <!-- SPEI -->
+        <div class="pay-detail" id="detail-spei">
+          <h4>🏦 Transferencia SPEI</h4>
+          <div class="info-box">
+            <p>Realiza una transferencia bancaria. <strong>Incluye tu número de pedido</strong> como referencia.</p>
+            <div class="copy-data">
+              Banco: BBVA<br>
+              Beneficiario: <strong>Mosa Craft S.A. de C.V.</strong><br>
+              CLABE: 012 580 0123456789 01<br>
+              Referencia: <strong id="speiRef">Genera tu pedido</strong>
+            </div>
+            <p style="margin-top:0.8rem;font-size:0.75rem;color:var(--text-light);">📧 Envía tu comprobante a pagos@mosacraft.mx</p>
+          </div>
+        </div>
+
+        <!-- OXXO -->
+        <div class="pay-detail" id="detail-oxxo">
+          <h4>🏪 Pago en OXXO / 7-Eleven</h4>
+          <div class="info-box">
+            <p>Al confirmar generaremos una <strong>referencia de pago</strong> para cualquier tienda OXXO o 7-Eleven.</p>
+            <div class="copy-data" style="text-align:center;font-size:1.2rem;letter-spacing:0.15em;padding:1rem;">
+              8888 · 0000 · 1234 · 5678
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-light);margin-top:0.5rem;">⏰ Tienes 24 horas para realizar el pago.</p>
+          </div>
+        </div>
+
+        <!-- APPLE/GOOGLE PAY -->
+        <div class="pay-detail" id="detail-applepay">
+          <h4>🍏 Apple Pay / Google Pay</h4>
+          <div class="info-box">
+            <p>Paga en un solo toque con <strong>Apple Pay o Google Pay</strong>. Usa Face ID, Touch ID o tu PIN para autorizar.</p>
+            <p style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-light);">✅ Disponible en Safari (Apple Pay) y Chrome/Android (Google Pay).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESUMEN -->
+    <div class="order-summary">
+      <div class="summary-title">🌸 Resumen del pedido</div>
+      <div class="summary-items-mini" id="summaryMini"></div>
+      <div class="summary-lines">
+        <div class="summary-line">
+          <span class="sl-label">Subtotal</span>
+          <span class="sl-value" id="subtotalVal">$0</span>
+        </div>
+        <div class="summary-line">
+          <span class="sl-label">Envío</span>
+          <span class="sl-value" style="color:#5c9e7a">Gratis 🎁</span>
+        </div>
+        <div class="summary-line">
+          <span class="sl-label">Empaque artesanal</span>
+          <span class="sl-value" style="color:#5c9e7a">Incluido ✓</span>
+        </div>
+        <div class="summary-line total">
+          <span class="sl-label">Total</span>
+          <span class="sl-value" id="totalVal">$0</span>
+        </div>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn" onclick="confirmOrder()">
+        🔒 Confirmar pedido
+      </button>
+      <div class="security-row">
+        <span class="sec-badge">🔒 SSL</span>
+        <span class="sec-badge">✓ Compra protegida</span>
+        <span class="sec-badge">↩ Devolución</span>
+      </div>
+      <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--lila-pale);">
+        <p style="font-size:0.72rem;font-weight:300;color:var(--text-light);text-align:center;line-height:1.7;">
+          ¿Necesitas ayuda? Llámanos al<br>
+          <a href="tel:+528181234567" style="color:var(--lila-mid);text-decoration:none;font-weight:500;">(81) 8123-4567</a> o escríbenos por WhatsApp
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANTALLA DE ÉXITO -->
+<div id="successScreen" style="display:none;padding:8rem 5% 5rem;max-width:600px;margin:0 auto;text-align:center;">
+  <span style="font-size:5rem;display:block;margin-bottom:1.5rem;animation:bounce 0.6s 0.3s ease both">🌸</span>
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--lila-deep);margin-bottom:0.8rem;">¡Pedido confirmado!</h1>
+  <p style="font-size:0.95rem;font-weight:300;color:var(--text-mid);line-height:1.8;margin-bottom:2rem;">Gracias por tu compra en <strong style="color:var(--lila-deep)">Mosa Craft</strong>. Pronto recibirás un mensaje con los detalles de tu entrega.</p>
+  <div style="background:var(--lila-pale);border-radius:14px;padding:1.5rem 2rem;display:inline-block;margin-bottom:2.5rem;">
+    <p style="font-size:0.75rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.3rem;">Número de pedido</p>
+    <strong style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--lila-deep)" id="orderNum">#000000</strong>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:0.8rem;align-items:center;">
+    <a href="catalogo.html" style="background:var(--lila-deep);color:white;text-decoration:none;border-radius:50px;padding:0.85rem 2.5rem;font-size:0.85rem;letter-spacing:0.1em;transition:all 0.25s;" onmouseover="this.style.background='var(--lila-mid)'" onmouseout="this.style.background='var(--lila-deep)'">Seguir comprando →</a>
+    <a href="index.html" style="color:var(--lila-mid);text-decoration:none;font-size:0.82rem;font-weight:300;">Volver al inicio</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Usa la misma clave que index.html y catalogo.html
+const CART_KEY = 'mosacraft_cart';
+let selectedMethod = 'tarjeta';
+
+function getCart(){ try{return JSON.parse(localStorage.getItem(CART_KEY))||[];}catch{return[];} }
+function saveCart(c){ localStorage.setItem(CART_KEY,JSON.stringify(c)); }
+
+function render(){
+  const cart = getCart();
+  const itemsWrap = document.getElementById('cartItemsWrap');
+  const summaryMini = document.getElementById('summaryMini');
+  const btn = document.getElementById('checkoutBtn');
+
+  if(!cart.length){
+    itemsWrap.innerHTML=`
+      <div class="empty-cart">
+        <span class="empty-cart-icon">🌸</span>
+        <p style="font-size:0.9rem;font-weight:300;color:var(--text-light)">Tu carrito está vacío.</p>
+        <a href="catalogo.html" class="go-shop-btn">Ver catálogo →</a>
+      </div>`;
+    summaryMini.innerHTML='';
+    document.getElementById('subtotalVal').textContent='$0';
+    document.getElementById('totalVal').textContent='$0';
+    btn.disabled=true;
+    return;
+  }
+
+  btn.disabled=false;
+  const total = cart.reduce((s,c)=>s+(c.price*c.qty),0);
+  document.getElementById('subtotalVal').textContent='$'+total.toLocaleString('es-MX');
+  document.getElementById('totalVal').textContent='$'+total.toLocaleString('es-MX');
+
+  // Items en el carrito (lista grande)
+  itemsWrap.innerHTML = cart.map(item=>`
+    <div class="cart-item">
+      <div class="ci-emoji">${item.emoji||'🎁'}</div>
+      <div class="ci-info">
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-cat">${item.cat||''}</div>
+      </div>
+      <div class="ci-qty">
+        <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+        <span class="qty-num">${item.qty}</span>
+        <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+      </div>
+      <div class="ci-price">$${(item.price*item.qty).toLocaleString('es-MX')}</div>
+      <button class="ci-remove" title="Eliminar" onclick="removeItem(${item.id})">✕</button>
+    </div>`).join('');
+
+  // Mini resumen lateral
+  summaryMini.innerHTML = cart.map(item=>`
+    <div class="si-mini">
+      <div class="si-em">${item.emoji||'🎁'}</div>
+      <div class="si-name">
+        <span class="si-qty-badge">×${item.qty}</span>${item.name}
+      </div>
+      <div class="si-p">$${(item.price*item.qty).toLocaleString('es-MX')}</div>
+    </div>`).join('');
+
+  // SPEI ref
+  const ref = document.getElementById('speiRef');
+  if(ref && ref.textContent==='Genera tu pedido'){
+    ref.textContent = 'MSC-' + Math.floor(Math.random()*900000+100000);
+  }
+}
+
+function changeQty(id, delta){
+  const cart = getCart();
+  const item = cart.find(c=>c.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0) cart.splice(cart.indexOf(item),1);
+  saveCart(cart);
+  render();
+}
+
+function removeItem(id){
+  saveCart(getCart().filter(c=>c.id!==id));
+  render();
+  showToast('Producto eliminado del carrito');
+}
+
+function selectMethod(method, el){
+  selectedMethod = method;
+  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('selected'));
+  el.classList.add('selected');
+  document.querySelectorAll('.pay-detail').forEach(d=>d.classList.remove('show'));
+  document.getElementById('detail-'+method)?.classList.add('show');
+  document.getElementById('step3').classList.add('active');
+  document.getElementById('step3').querySelector('.step-num').textContent='3';
+  document.getElementById('sep2').classList.add('done');
+}
+
+function formatCard(input){
+  let v = input.value.replace(/\D/g,'').substring(0,16);
+  input.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+function formatExp(input){
+  let v = input.value.replace(/\D/g,'');
+  if(v.length>=2) v = v.substring(0,2)+'/'+v.substring(2,4);
+  input.value = v;
+}
+
+function confirmOrder(){
+  const cart = getCart();
+  if(!cart.length){ showToast('Tu carrito está vacío'); return; }
+
+  const campos = {
+    nombre: document.getElementById('nombre').value.trim(),
+    telefono: document.getElementById('telefono').value.trim(),
+    direccion: document.getElementById('direccion').value.trim(),
+    ciudad: document.getElementById('ciudad').value.trim(),
+    fecha: document.getElementById('fecha').value,
+  };
+
+  if(Object.values(campos).some(v=>!v)){
+    showToast('⚠️ Completa todos los campos obligatorios');
+    document.getElementById('deliveryCard').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  const orderNum = 'MSC-' + Math.floor(Math.random()*900000+100000);
+  document.getElementById('orderNum').textContent = '#' + orderNum;
+  saveCart([]);
+
+  document.getElementById('checkoutWrap').style.display='none';
+  const success = document.getElementById('successScreen');
+  success.style.display='block';
+  success.style.animation='fadeUp 0.6s ease both';
+
+  ['step2','step3','step4'].forEach(id=>{
+    const s=document.getElementById(id);
+    s.classList.remove('active');
+    s.classList.add('done');
+    s.querySelector('.step-num').textContent='✓';
+  });
+  ['sep2','sep3'].forEach(id=>document.getElementById(id)?.classList.add('done'));
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// Fecha mínima = hoy
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('fecha').min = today;
+document.getElementById('fecha').value = today;
+
+render();
+</script>
+</body>
+</html>
